@@ -90,10 +90,12 @@ protected:
 	bool m_escaped{ false };
 	bool m_reverse_dir{ false };
 	bool m_flee_ending{ false };
+	bool m_changed_world_pos{false};
 
 	std::vector<position> m_decision_pos;
 
 	position m_scatter_dest;
+	world_position m_world_pos{ 0, 0 };
 };
 
 class Red : public Ghost

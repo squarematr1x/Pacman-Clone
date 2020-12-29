@@ -31,6 +31,22 @@ void Ghost::changeMode(Mode mode)
 	setMode(mode); 
 }
 
+void Ghost::start(int x, int y, World& world)
+{
+	if (x == 11.0f && y == 11.0f)
+	{
+		if (m_mode == Mode::EATEN)
+		{
+			reset(world);
+			world.toggleRenderScoreFlag();
+			setSpeed(0.125f);
+		}
+
+		m_mode = Mode::SCATTER;
+		m_escaped = true;
+	}
+}
+
 std::map<Direction, position> Ghost::getPossiblePos(Direction last_dir)
 {
 	// NOTE: Position changes should only made in m_decision_positions
@@ -74,22 +90,6 @@ std::map<Direction, position> Ghost::getOppositePos(Direction last_dir)
 	return possible_pos;
 }
 
-void Ghost::start(int x, int y, World& world)
-{
-	if (x == 11.0f && y == 11.0f)
-	{
-		if (m_mode == Mode::EATEN)
-		{
-			reset(world);
-			world.toggleRenderScoreFlag();
-			setSpeed(0.125f);
-		}
-
-		m_mode = Mode::SCATTER;
-		m_escaped = true;
-	}
-}
-
 void Ghost::updateDest(position& dest, position pacman_pos, position red_pos, Direction pacman_dir)
 {
 	if (m_mode == Mode::CHASE)
@@ -97,31 +97,6 @@ void Ghost::updateDest(position& dest, position pacman_pos, position red_pos, Di
 	else if (m_mode == Mode::SCATTER || m_mode == Mode::FLEE)
 		dest = m_scatter_dest;
 }
-
-//void test(int x, int y, World& world)
-//{
-//	std::map<int, int> positions;
-//
-//	if (world.isWall(y - 1, x, true))
-//	{
-//		positions.insert(y - 1, x);
-//	}
-//
-//	if (world.isWall(y + 1, x, true))
-//	{
-//		positions.insert(y + 1, x);
-//	}
-//
-//	if (world.isWall(y, x - 1, true))
-//	{
-//		positions.insert(y, x - 1);
-//	}
-//
-//	if (world.isWall(y, x + 1, true))
-//	{
-//		positions.insert(y, x + 1);
-//	}
-//}
 
 void Ghost::update(position pacman_pos, position red_pos, Direction pacman_dir, World& world)
 {
@@ -133,24 +108,30 @@ void Ghost::update(position pacman_pos, position red_pos, Direction pacman_dir, 
 	int x = static_cast<int>(std::round(m_pos.x));
 	int y = static_cast<int>(std::round(m_pos.y));
 
+	m_world_pos.x = x;
+	m_world_pos.y = y;
+
 	if (m_mode == Mode::START || m_mode == Mode::EATEN)
 		start(x, y, world);
 
 	updateDest(dest, pacman_pos, red_pos, pacman_dir);
 
-	float distance = 100.0f;
-	std::map<Direction, position> moves = getPossiblePos(m_dir);
-
-	for (auto const& move : moves)
+	if (m_changed_world_pos)
 	{
-		if (!world.isWall(move.second, m_escaped))
-		{
-			float new_distance = getDistance(move.second, dest);
+		float distance = 100.0f;
+		std::map<Direction, position> moves = getPossiblePos(m_dir);
 
-			if (new_distance < distance)
+		for (auto const& move : moves)
+		{
+			if (!world.isWall(move.second, m_escaped))
 			{
-				distance = new_distance;
-				m_dir = move.first;
+				float new_distance = getDistance(move.second, dest);
+
+				if (new_distance < distance)
+				{
+					distance = new_distance;
+					m_dir = move.first;
+				}
 			}
 		}
 	}
@@ -191,6 +172,11 @@ void Ghost::updateMapPos(World& world)
 {
 	int new_x = static_cast<int>(std::round(m_pos.x));
 	int new_y = static_cast<int>(std::round(m_pos.y));
+
+	if (m_world_pos.x != new_x || m_world_pos.y != new_y)
+		m_changed_world_pos = true;
+	else
+		m_changed_world_pos = false;
 
 	char next_tile = world.charAt(new_y, new_x);
 
