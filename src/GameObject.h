@@ -69,11 +69,12 @@ public:
 
 	virtual void toggleFleeEndingFlag() { m_flee_ending = !m_flee_ending; }
 
-	virtual void updatePos(Direction dir, World& world);
+	virtual void updatePos(int x, int y, Direction dir, World& world);
 	virtual void updateMapPos(World& world);
 	virtual void updateDest(position& dest, position pacman_pos, position red_pos, Direction pacman_dir);
 	virtual void update(position pacman_pos, position red_pos, Direction pacman_dir, World& world);
 	virtual void changeMode(Mode mode);
+	virtual void start(int x, int y, World& world);
 
 	virtual void reset(World& world) = 0;
 	virtual void setToEaten(World& world) = 0;

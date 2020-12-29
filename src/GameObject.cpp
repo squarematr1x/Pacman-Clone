@@ -74,6 +74,22 @@ std::map<Direction, position> Ghost::getOppositePos(Direction last_dir)
 	return possible_pos;
 }
 
+void Ghost::start(int x, int y, World& world)
+{
+	if (x == 11.0f && y == 11.0f)
+	{
+		if (m_mode == Mode::EATEN)
+		{
+			reset(world);
+			world.toggleRenderScoreFlag();
+			setSpeed(0.125f);
+		}
+
+		m_mode = Mode::SCATTER;
+		m_escaped = true;
+	}
+}
+
 void Ghost::updateDest(position& dest, position pacman_pos, position red_pos, Direction pacman_dir)
 {
 	if (m_mode == Mode::CHASE)
@@ -89,24 +105,11 @@ void Ghost::update(position pacman_pos, position red_pos, Direction pacman_dir, 
 
 	position dest = { 11.0f, 11.0f };
 
-	int ghost_x = static_cast<int>(std::round(m_pos.x));
-	int ghost_y = static_cast<int>(std::round(m_pos.y));
+	int x = static_cast<int>(std::round(m_pos.x));
+	int y = static_cast<int>(std::round(m_pos.y));
 
 	if (m_mode == Mode::START || m_mode == Mode::EATEN)
-	{
-		if (ghost_x == 11.0f && ghost_y == 11.0f)
-		{
-			if (m_mode == Mode::EATEN)
-			{
-				reset(world);
-				world.toggleRenderScoreFlag();
-				setSpeed(0.125f);
-			}
-
-			m_mode = Mode::SCATTER;
-			m_escaped = true;
-		}
-	}
+		start(x, y, world);
 
 	updateDest(dest, pacman_pos, red_pos, pacman_dir);
 
@@ -127,17 +130,14 @@ void Ghost::update(position pacman_pos, position red_pos, Direction pacman_dir, 
 		}
 	}
 
-	updatePos(m_dir, world);
+	updatePos(x, y, m_dir, world);
 
 	SDL_Rect sprite_dest = { 32 * static_cast<int>(round(m_pos.x)), 32 * static_cast<int>(round(m_pos.y)), 32, 32 };
 	m_sprite->update(sprite_dest, m_dir, m_mode, m_flee_ending);
 }
 
-void Ghost::updatePos(Direction dir, World& world)
+void Ghost::updatePos(int x, int y, Direction dir, World& world)
 {
-	int x = static_cast<int>(round(m_pos.x));
-	int y =	static_cast<int>(round(m_pos.y));
-
 	updateLastPos(x, y, world);
 
 	if (dir == Direction::UP)
@@ -147,14 +147,14 @@ void Ghost::updatePos(Direction dir, World& world)
 	else if (dir == Direction::LEFT)
 	{
 		if (atLeftmostPos())
-			m_pos.x = 22;
+			m_pos.x = 22.0f;
 		else
 			m_pos.x -= m_speed;
 	}
 	else if (dir == Direction::RIGHT)
 	{
 		if (atRightmostPos())
-			m_pos.x = 0;
+			m_pos.x = 0.0f;
 		else
 			m_pos.x += m_speed;
 	}
@@ -164,10 +164,10 @@ void Ghost::updatePos(Direction dir, World& world)
 
 void Ghost::updateMapPos(World& world)
 {
-	int ghost_x = static_cast<int>(std::round(m_pos.x));
-	int ghost_y = static_cast<int>(std::round(m_pos.y));
+	int new_x = static_cast<int>(std::round(m_pos.x));
+	int new_y = static_cast<int>(std::round(m_pos.y));
 
-	char next_tile = world.charAt(ghost_y, ghost_x);
+	char next_tile = world.charAt(new_y, new_x);
 
 	if (next_tile == 'C')
 	{
@@ -176,12 +176,12 @@ void Ghost::updateMapPos(World& world)
 		else
 		{
 			setToEaten(world);
-			world.setScorePos(ghost_x, ghost_y);
+			world.setScorePos(new_x, new_y);
 			world.toggleRenderScoreFlag();
 		}
 	}
 
-	setMapTile(world, next_tile, ghost_x, ghost_y);
+	setMapTile(world, next_tile, new_x, new_y);
 }
 
 position Red::getChasePos(position pacman_pos, position red_pos, Direction pacman_dir)
