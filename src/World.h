@@ -15,7 +15,7 @@ struct position
     friend position operator*(float k, position const& p);
 };
 
-struct score_pos
+struct world_position
 {
     int x, y;
 };
@@ -113,7 +113,7 @@ private:
     int m_big_points{ 0 };
     int m_points{ 0 };
 
-    score_pos m_score_pos{ 0,0 };
+    world_position m_score_pos{ 0,0 };
 
     std::vector<char> m_ghost_buffer{ ' ',' ',' ',' ' }; // For storing points that collide with ghosts
 
