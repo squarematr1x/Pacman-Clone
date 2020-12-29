@@ -1,0 +1,14 @@
+Debug/
+packages/
+
+**.vcxproj
+**.vcxproj.filters
+**.vcxproj.user
+
+**.config
+
+**.APS
+**.rc
+
+**.sln
+**.vs
