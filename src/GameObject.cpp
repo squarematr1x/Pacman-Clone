@@ -98,6 +98,31 @@ void Ghost::updateDest(position& dest, position pacman_pos, position red_pos, Di
 		dest = m_scatter_dest;
 }
 
+//void test(int x, int y, World& world)
+//{
+//	std::map<int, int> positions;
+//
+//	if (world.isWall(y - 1, x, true))
+//	{
+//		positions.insert(y - 1, x);
+//	}
+//
+//	if (world.isWall(y + 1, x, true))
+//	{
+//		positions.insert(y + 1, x);
+//	}
+//
+//	if (world.isWall(y, x - 1, true))
+//	{
+//		positions.insert(y, x - 1);
+//	}
+//
+//	if (world.isWall(y, x + 1, true))
+//	{
+//		positions.insert(y, x + 1);
+//	}
+//}
+
 void Ghost::update(position pacman_pos, position red_pos, Direction pacman_dir, World& world)
 {
 	if (m_mode == Mode::REST)
@@ -132,7 +157,7 @@ void Ghost::update(position pacman_pos, position red_pos, Direction pacman_dir, 
 
 	updatePos(x, y, m_dir, world);
 
-	SDL_Rect sprite_dest = { 32 * static_cast<int>(round(m_pos.x)), 32 * static_cast<int>(round(m_pos.y)), 32, 32 };
+	SDL_Rect sprite_dest = { 32 * x, 32 * y, 32, 32 };
 	m_sprite->update(sprite_dest, m_dir, m_mode, m_flee_ending);
 }
 

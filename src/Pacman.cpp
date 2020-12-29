@@ -29,8 +29,8 @@ void Pacman::updatePos(Direction dir, World& world)
 
 void Pacman::validatePos(position next_pos, World& world)
 {
-	int pacman_x = static_cast<int>(std::round(m_pos.x));
-	int pacman_y = static_cast<int>(std::round(m_pos.y));
+	int x = static_cast<int>(std::round(m_pos.x));
+	int y = static_cast<int>(std::round(m_pos.y));
 	int next_x = static_cast<int>(std::round(next_pos.x));
 	int next_y = static_cast<int>(std::round(next_pos.y));
 
@@ -38,7 +38,7 @@ void Pacman::validatePos(position next_pos, World& world)
 	{
 		updateWorld(world, next_y, next_x);
 
-		world.updatePlayerPos(pacman_y, pacman_x, next_y, next_x);
+		world.updatePlayerPos(y, x, next_y, next_x);
 
 		SDL_Rect dest = { 32 * next_x, 32 * next_y, 32, 32 };
 		m_sprite->update(dest, m_dir);
