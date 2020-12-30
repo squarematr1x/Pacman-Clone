@@ -40,6 +40,9 @@ void Ghost::start(int x, int y, World& world)
 			reset(world);
 			world.toggleRenderScoreFlag();
 			setSpeed(0.125f);
+
+			if (m_flee_ending)
+				toggleFleeEndingFlag();
 		}
 
 		m_mode = Mode::SCATTER;
@@ -49,8 +52,6 @@ void Ghost::start(int x, int y, World& world)
 
 std::map<Direction, position> Ghost::getPossiblePos(Direction last_dir)
 {
-	// NOTE: Position changes should only made in m_decision_positions
-
 	if (m_reverse_dir)
 	{
 		m_reverse_dir = false;

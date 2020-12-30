@@ -110,7 +110,6 @@ void Game::update()
 	{
 		m_pacman->addToScore(200);
 		m_ghosts[PINK]->changeMode(Mode::EATEN);
-		m_ghosts[PINK]->toggleFleeEndingFlag();
 	}
 
 	for (auto ghost : m_ghosts)
