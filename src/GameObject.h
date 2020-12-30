@@ -49,11 +49,6 @@ protected:
 	Direction m_dir{ Direction::LEFT };
 };
 
-// Ghost should have set of desicion positions {...}
-// In other positions ghost next move is to the same direction as previous move etc.
-// If (not decision_pos and not wall ahead) { increment speed to correct direction; } 
-// Else { calculate distance and choose closest adjacent cell; }
-
 class Ghost : public GameObject
 {
 public:
