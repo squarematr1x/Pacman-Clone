@@ -93,9 +93,19 @@ void Game::handleInput()
 				case SDLK_UP:     m_next_dir = Direction::UP;    break;
 				case SDLK_DOWN:   m_next_dir = Direction::DOWN;  break;
 				case SDLK_SPACE:  m_world.printMap();            break;
+				case SDLK_LCTRL:  checkGhosts();                 break;
 			}
 		} break;
 	}
+}
+
+void Game::checkGhosts()
+{
+	// Problem found: vulnerable flag not reset after flee mode (if ghost wasn't eaten in this phase)
+	std::cout << "Red vul: " << m_world.redVulnerable() << '\n';
+	std::cout << "Pnk vul: " << m_world.pinkVulnerable() << '\n';
+	std::cout << "Blu vul: " << m_world.blueVulnerable() << '\n';
+	std::cout << "Org vul: " << m_world.orangeVulnerable() << '\n';
 }
 
 void Game::update()
@@ -105,7 +115,6 @@ void Game::update()
 
 	m_pacman->updatePos(m_next_dir, m_world);
 
-	// Check if ghost are eaten
 	if (m_world.redEaten())
 	{
 		m_pacman->addToScore(200);
@@ -156,6 +165,9 @@ void Game::update()
 		}
 
 		m_world.toggleBigPointEatenFlag();
+
+		// FIXME: Don't set imprisoned ghosts vulnerable
+		// FIXME: Change all toggle to setVar(bool)
 		m_world.setAllGhostsVulnerable();
 	}
 
@@ -195,16 +207,18 @@ void Game::updateGhostMode()
 		m_flee = false;
 		m_flee_ending = false;
 		m_flee_timer.reset();
-		m_timer.resume();
 
 		for (auto ghost : m_ghosts)
 		{
 			if (ghost->getMode() == Mode::FLEE)
 			{
 				ghost->toggleFleeEndingFlag();
+				ghost->reset(m_world);
 				ghost->setMode(Mode::SCATTER);
 			}
 		}
+
+		m_timer.resume();
 	}
 	else if (!m_flee_ending && m_flee_timer.time() >= 5000)
 	{

@@ -33,6 +33,8 @@ public:
 	bool releaseBlue();
 	bool releaseOrange();
 
+	void checkGhosts();
+
 private:
 	bool m_running{ true };
 	bool m_pause{ false };
