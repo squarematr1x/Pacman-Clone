@@ -79,10 +79,14 @@ public:
     void toggleBlueEatenFlag() { m_blue_eaten = !m_blue_eaten; }
     void toggleOrangeEatenFlag() { m_orange_eaten = !m_orange_eaten; }
 
+    void toggleVulnerableFlag(color ghost_color);
+    void toggleEatenFlag(color ghost_color);
+
     void toggleBigPointEatenFlag() { m_big_point_eaten = !m_big_point_eaten; }
 
     void toggleRenderScoreFlag() { m_render_score = !m_render_score; }
 
+    void handleCollision(int y, int x, color ghost);
     void updatePlayerPos(int old_y, int old_x, int new_y, int new_x);
     void resetPlayer();
     void resetGhost();

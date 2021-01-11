@@ -95,6 +95,19 @@ void World::setAllGhostsVulnerable()
 	m_orange_vulnerable = true;
 }
 
+void World::handleCollision(int y, int x, color ghost)
+{
+	if (redVulnerable())
+	{
+		toggleRedVulnerableFlag();
+		toggleRedEatenFlag();
+		setScorePos(x, y);
+		toggleRenderScoreFlag();
+	}
+	else if (!redEaten())
+		togglePlayerEatenFlag();
+}
+
 void World::updatePlayerPos(int old_y, int old_x, int new_y, int new_x)
 {
 	if (m_map[new_y][new_x] == '*')
@@ -102,6 +115,28 @@ void World::updatePlayerPos(int old_y, int old_x, int new_y, int new_x)
 
 	m_map[old_y][old_x] = ' ';
 	m_map[new_y][new_x] = 'C';
+}
+
+void World::toggleVulnerableFlag(color ghost_color)
+{
+	switch (ghost_color)
+	{
+		case RED:    toggleRedVulnerableFlag();    break;
+		case PINK:   togglePinkVulnerableFlag();   break;
+		case BLUE:   toggleBlueVulnerableFlag();   break;
+		case ORANGE: toggleOrangeVulnerableFlag(); break;
+	}
+}
+
+void World::toggleEatenFlag(color ghost_color)
+{
+	switch (ghost_color)
+	{
+		case RED:    toggleRedEatenFlag();    break;
+		case PINK:   togglePinkEatenFlag();   break;
+		case BLUE:   toggleBlueEatenFlag();   break;
+		case ORANGE: toggleOrangeEatenFlag(); break;
+	}
 }
 
 bool World::isWall(int y, int x, bool fence_on)
