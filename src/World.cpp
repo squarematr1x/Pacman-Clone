@@ -40,19 +40,14 @@ bool World::vulnerable(color ghost_color)
 	{
 		case RED:    
 			return m_red_vulnerable;    
-			break;
 		case PINK:   
 			return m_pink_vulnerable;   
-			break;
 		case BLUE:   
 			return m_blue_vulnerable;   
-			break;
 		case ORANGE: 
 			return m_orange_vulnerable; 
-			break;
 		default:     
 			return false;              
-			break;
 	}
 }
 
@@ -62,19 +57,14 @@ bool World::eaten(color ghost_color)
 	{
 		case RED:    
 			return m_red_eaten;    
-			break;
 		case PINK:   
 			return m_pink_eaten;   
-			break;
 		case BLUE:   
 			return m_blue_eaten;   
-			break;
 		case ORANGE: 
 			return m_orange_eaten; 
-			break;
 		default:     
 			return false;          
-			break;
 	}
 }
 
