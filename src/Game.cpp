@@ -92,7 +92,7 @@ void Game::handleInput()
 				case SDLK_RIGHT:  m_next_dir = Direction::RIGHT; break;
 				case SDLK_UP:     m_next_dir = Direction::UP;    break;
 				case SDLK_DOWN:   m_next_dir = Direction::DOWN;  break;
-				case SDLK_SPACE:  m_world.printMap();              break;
+				case SDLK_SPACE:  m_world.printMap();            break;
 			}
 		} break;
 	}
@@ -106,10 +106,28 @@ void Game::update()
 	m_pacman->updatePos(m_next_dir, m_world);
 
 	// Check if ghost are eaten
+	if (m_world.redEaten())
+	{
+		m_pacman->addToScore(200);
+		m_ghosts[RED]->changeMode(Mode::EATEN);
+	}
+
 	if (m_world.pinkEaten())
 	{
 		m_pacman->addToScore(200);
 		m_ghosts[PINK]->changeMode(Mode::EATEN);
+	}
+
+	if (m_world.blueEaten())
+	{
+		m_pacman->addToScore(200);
+		m_ghosts[BLUE]->changeMode(Mode::EATEN);
+	}
+
+	if (m_world.orangeEaten())
+	{
+		m_pacman->addToScore(200);
+		m_ghosts[ORANGE]->changeMode(Mode::EATEN);
 	}
 
 	for (auto ghost : m_ghosts)
@@ -141,20 +159,25 @@ void Game::update()
 		m_world.setAllGhostsVulnerable();
 	}
 
+	if (releaseRed())
+	{
+		m_ghosts[RED]->setMode(Mode::START);
+		m_red_free = true;
+	}
+
+	if (releaseBlue())
+	{
+		m_ghosts[BLUE]->setMode(Mode::START);
+		m_blue_free = true;
+	}
+
 	if (m_world.getPoints() == 0)
 		m_running = false; // Victory (show text)
-
-	//else if (releaseOrange())
-	//{
-	//	m_orange_free = true;
-	//	m_ghosts[ORANGE]->setMode(Mode::START);
-	//}
-
-	//if (releaseBlue())
-	//{
-	//	m_ghosts[BLUE]->setMode(Mode::START);
-	//	m_blue_free = true;
-	//}
+	else if (releaseOrange())
+	{
+		m_orange_free = true;
+		m_ghosts[ORANGE]->setMode(Mode::START);
+	}
 
 	if (!m_timer.paused())
 		m_timer.update();
@@ -182,7 +205,6 @@ void Game::updateGhostMode()
 				ghost->setMode(Mode::SCATTER);
 			}
 		}
-
 	}
 	else if (!m_flee_ending && m_flee_timer.time() >= 5000)
 	{
@@ -246,6 +268,14 @@ void Game::clean()
 
 	TTF_Quit();
 	SDL_Quit();
+}
+
+bool Game::releaseRed()
+{
+	if (!m_red_free && m_ghosts[PINK]->escaped())
+		return true;
+
+	return false;
 }
 
 bool Game::releaseBlue()

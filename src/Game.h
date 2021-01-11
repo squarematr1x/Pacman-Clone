@@ -29,12 +29,14 @@ public:
 	bool running() const { return m_running; }
 	bool pause() const { return m_pause; }
 	bool fleeing() const { return m_flee; }
+	bool releaseRed();
 	bool releaseBlue();
 	bool releaseOrange();
 
 private:
 	bool m_running{ true };
 	bool m_pause{ false };
+	bool m_red_free{ false };
 	bool m_blue_free{ false };
 	bool m_orange_free{ false };
 	bool m_flee{ false };

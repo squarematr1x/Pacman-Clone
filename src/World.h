@@ -60,9 +60,9 @@ public:
 
     bool bigPointEaten() const { return m_big_point_eaten; }
 
-    char charAt(int y, int x) const { return m_map[y][x]; }
+    char tileAt(int y, int x) const { return m_map[y][x]; }
 
-    void setCharAt(int y, int x, char c) { m_map[y][x] = c; }
+    void setTileAt(int y, int x, char c) { m_map[y][x] = c; }
     void togglePlayerEatenFlag() { m_player_eaten = !m_player_eaten; }
 
     char getGhostBuffer(int index) const{ return m_ghost_buffer[index]; }

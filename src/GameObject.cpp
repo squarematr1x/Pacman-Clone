@@ -179,7 +179,7 @@ void Ghost::updateMapPos(World& world)
 	else
 		m_changed_world_pos = false;
 
-	char next_tile = world.charAt(new_y, new_x);
+	char next_tile = world.tileAt(new_y, new_x);
 
 	if (next_tile == 'C')
 	{
@@ -218,7 +218,7 @@ void Red::setToEaten(World& world)
 void Red::setMapTile(World& world, char next_tile, int x, int y)
 {
 	world.setGhostBuffer(next_tile, RED);
-	world.setCharAt(y, x, 'R');
+	world.setTileAt(y, x, 'R');
 }
 
 position Pink::getChasePos(position pacman_pos, position red_pos, Direction pacman_dir)
@@ -253,7 +253,7 @@ void Pink::setToEaten(World& world)
 void Pink::setMapTile(World& world, char next_tile, int x, int y)
 {
 	world.setGhostBuffer(next_tile, PINK);
-	world.setCharAt(y, x, 'P');
+	world.setTileAt(y, x, 'P');
 }
 
 position Blue::getChasePos(position pacman_pos, position red_pos, Direction pacman_dir)
@@ -288,7 +288,7 @@ void Blue::setToEaten(World& world)
 void Blue::setMapTile(World& world, char next_tile, int x, int y)
 {
 	world.setGhostBuffer(next_tile, BLUE);
-	world.setCharAt(y, x, 'B');
+	world.setTileAt(y, x, 'B');
 }
 
 position Orange::getChasePos(position pacman_pos, position red_pos, Direction pacman_dir)
@@ -316,5 +316,5 @@ void Orange::setToEaten(World& world)
 void Orange::setMapTile(World& world, char next_tile, int x, int y)
 {
 	world.setGhostBuffer(next_tile, ORANGE);
-	world.setCharAt(y, x, 'O');
+	world.setTileAt(y, x, 'O');
 }

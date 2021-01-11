@@ -81,6 +81,8 @@ public:
 	virtual std::map<Direction, position> getPossiblePos(Direction last_dir);
 	virtual std::map<Direction, position> getOppositePos(Direction last_dir);
 
+	bool escaped() const { return m_escaped; }
+
 protected:
 	bool m_escaped{ false };
 	bool m_reverse_dir{ false };
@@ -95,14 +97,14 @@ class Red : public Ghost
 {
 public:
 	Red(Sprite* sprite, position scatter_dest = {21.0f, 0.0f})
-		: Ghost(sprite, Mode::START, scatter_dest)
+		: Ghost(sprite, Mode::REST, scatter_dest)
 	{
 	}
 
 	void reset(World& world);
 	void setToEaten(World& world);
 	void setMapTile(World& world, char next_tile, int x, int y);
-	void updateLastPos(int x, int y, World& world) { world.setCharAt(y, x, world.getGhostBuffer(0)); };
+	void updateLastPos(int x, int y, World& world) { world.setTileAt(y, x, world.getGhostBuffer(0)); };
 
 	position getChasePos(position pacman_pos, position red_pos, Direction pacman_dir);
 };
@@ -118,7 +120,7 @@ public:
 	void reset(World& worldp);
 	void setToEaten(World& world);
 	void setMapTile(World& world, char next_tile, int x, int y);
-	void updateLastPos(int x, int y, World& world) { world.setCharAt(y, x, world.getGhostBuffer(1)); };
+	void updateLastPos(int x, int y, World& world) { world.setTileAt(y, x, world.getGhostBuffer(1)); };
 
 	position getChasePos(position pacman_pos, position red_pos, Direction pacman_dir);
 };
@@ -134,7 +136,7 @@ public:
 	void reset(World& world);
 	void setToEaten(World& world);
 	void setMapTile(World& world, char next_tile, int x, int y);
-	void updateLastPos(int x, int y, World& world) { world.setCharAt(y, x, world.getGhostBuffer(2)); };
+	void updateLastPos(int x, int y, World& world) { world.setTileAt(y, x, world.getGhostBuffer(2)); };
 
 	position getChasePos(position pacman_pos, position red_pos, Direction pacman_dir);
 };
@@ -150,7 +152,7 @@ public:
 	void reset(World& world);
 	void setToEaten(World& world);
 	void setMapTile(World& world, char next_tile, int x, int y);
-	void updateLastPos(int x, int y, World& world) { world.setCharAt(y, x, world.getGhostBuffer(3)); };
+	void updateLastPos(int x, int y, World& world) { world.setTileAt(y, x, world.getGhostBuffer(3)); };
 
 	position getChasePos(position pacman_pos, position red_pos, Direction pacman_dir);
 };

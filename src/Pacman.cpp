@@ -49,14 +49,26 @@ void Pacman::validatePos(position next_pos, World& world)
 
 void Pacman::updateWorld(World& world, int y, int x)
 {
-	if (world.charAt(y, x) == '*')
+	if (world.tileAt(y, x) == '*')
 		m_score += 10;
-	else if (world.charAt(y, x) == '@')
+	else if (world.tileAt(y, x) == '@')
 	{
 		world.toggleBigPointEatenFlag();
 		m_score += 20;
 	}
-	else if (world.charAt(y, x) == 'P') // Repeat this with other colors as well
+	else if (world.tileAt(y, x) == 'R')
+	{
+		if (world.redVulnerable())
+		{
+			world.toggleRedVulnerableFlag();
+			world.toggleRedEatenFlag();
+			world.setScorePos(x, y);
+			world.toggleRenderScoreFlag();
+		}
+		else if (!world.redEaten())
+			world.togglePlayerEatenFlag();
+	}
+	else if (world.tileAt(y, x) == 'P')
 	{
 		if (world.pinkVulnerable())
 		{
@@ -66,6 +78,30 @@ void Pacman::updateWorld(World& world, int y, int x)
 			world.toggleRenderScoreFlag();
 		}
 		else if (!world.pinkEaten())
+			world.togglePlayerEatenFlag();
+	}
+	else if (world.tileAt(y, x) == 'B')
+	{
+		if (world.blueVulnerable())
+		{
+			world.toggleBlueVulnerableFlag();
+			world.toggleBlueEatenFlag();
+			world.setScorePos(x, y);
+			world.toggleRenderScoreFlag();
+		}
+		else if (!world.blueEaten())
+			world.togglePlayerEatenFlag();
+	}
+	else if (world.tileAt(y, x) == 'O')
+	{
+		if (world.orangeVulnerable())
+		{
+			world.toggleOrangeVulnerableFlag();
+			world.toggleOrangeEatenFlag();
+			world.setScorePos(x, y);
+			world.toggleRenderScoreFlag();
+		}
+		else if (!world.orangeEaten())
 			world.togglePlayerEatenFlag();
 	}
 }
