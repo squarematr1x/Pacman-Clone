@@ -198,8 +198,7 @@ void Ghost::updateMapPos(World& world)
 
 bool Ghost::canEatPlayer()
 {
-	if (m_mode != Mode::FLEE &&
-		m_mode != Mode::EATEN)
+	if (m_mode == Mode::SCATTER || m_mode == Mode::CHASE)
 		return true;
 
 	return false;
