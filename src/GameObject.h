@@ -10,7 +10,7 @@
 class GameObject
 {
 public:
-	GameObject(Sprite* sprite, float speed, position pos, Mode mode)
+	GameObject(Sprite* sprite, float speed, position pos, Mode mode = Mode::REST)
 		: m_sprite(sprite), m_speed(speed), m_pos(pos), m_mode(mode)
 	{
 	}
@@ -87,8 +87,6 @@ protected:
 	bool m_flee_ending{ false };
 	bool m_changed_world_pos{false};
 
-	std::vector<position> m_decision_pos;
-
 	position m_scatter_dest;
 	world_position m_world_pos{ 0, 0 };
 };
@@ -97,7 +95,7 @@ class Red : public Ghost
 {
 public:
 	Red(Sprite* sprite, position scatter_dest = {21.0f, 0.0f})
-		: Ghost(sprite, Mode::REST, scatter_dest)
+		: Ghost(sprite, Mode::START, scatter_dest)
 	{
 	}
 

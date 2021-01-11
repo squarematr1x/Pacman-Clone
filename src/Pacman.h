@@ -6,7 +6,7 @@ class Pacman : public GameObject
 {
 public:
 	Pacman(Sprite* sprite)
-		: GameObject(sprite, 0.175f, { 11.0f, 20.0f }, Mode::REST)
+		: GameObject(sprite, 0.175f, { 11.0f, 20.0f })
 	{
 	}
 
