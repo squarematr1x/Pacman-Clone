@@ -5,23 +5,30 @@ void Pacman::updatePos(Direction dir, World& world)
 	m_dir = dir;
 	position next_pos = m_pos;
 
-	if (dir == Direction::UP)
-		next_pos.y -= m_speed;
-	else if (dir == Direction::DOWN)
-		next_pos.y += m_speed;
-	else if (dir == Direction::LEFT)
+	switch (dir)
 	{
-		if (atLeftmostPos())
-			next_pos.x = 22;
-		else
-			next_pos.x -= m_speed;
-	}
-	else if (dir == Direction::RIGHT)
-	{
-		if (atRightmostPos())
-			next_pos.x = 0;
-		else
-			next_pos.x += m_speed;
+		case Direction::UP:
+			next_pos.y -= m_speed;
+			break;
+		case Direction::DOWN:
+			next_pos.y += m_speed;
+			break;
+		case Direction::LEFT:
+		{
+			if (atLeftmostPos())
+				next_pos.x = 22;
+			else
+				next_pos.x -= m_speed;
+			break;
+		}
+		case Direction::RIGHT:
+		{
+			if (atRightmostPos())
+				next_pos.x = 0;
+			else
+				next_pos.x += m_speed;
+			break;
+		}
 	}
 
 	validatePos(next_pos, world);
