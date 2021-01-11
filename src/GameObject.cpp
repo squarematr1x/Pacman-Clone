@@ -214,7 +214,11 @@ position Red::getChasePos(position pacman_pos, position red_pos, Direction pacma
 
 void Red::reset(World& world)
 {
-	world.toggleRedEatenFlag();
+	if (world.redVulnerable())
+		world.toggleRedVulnerableFlag();
+
+	if (world.redEaten())
+		world.toggleRedEatenFlag();
 }
 
 void Red::setToEaten(World& world)
@@ -249,7 +253,11 @@ position Pink::getChasePos(position pacman_pos, position red_pos, Direction pacm
 
 void Pink::reset(World& world)
 {
-	world.togglePinkEatenFlag();
+	if (world.pinkVulnerable())
+		world.togglePinkVulnerableFlag();
+
+	if (world.pinkEaten())
+		world.togglePinkEatenFlag();
 }
 
 void Pink::setToEaten(World& world)
@@ -284,7 +292,11 @@ position Blue::getChasePos(position pacman_pos, position red_pos, Direction pacm
 
 void Blue::reset(World& world)
 {
-	world.toggleBlueEatenFlag();
+	if (world.blueVulnerable())
+		world.toggleBlueVulnerableFlag();
+
+	if (world.blueEaten())
+		world.toggleBlueEatenFlag();
 }
 
 void Blue::setToEaten(World& world)
@@ -312,7 +324,11 @@ position Orange::getChasePos(position pacman_pos, position red_pos, Direction pa
 
 void Orange::reset(World& world)
 {
-	world.toggleOrangeEatenFlag();
+	if (world.orangeVulnerable())
+		world.toggleOrangeVulnerableFlag();
+
+	if (world.orangeEaten())
+		world.toggleOrangeEatenFlag();
 }
 
 void Orange::setToEaten(World& world)
