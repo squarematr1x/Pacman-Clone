@@ -148,7 +148,7 @@ void World::handleCollision(int y, int x, color ghost_color)
 		setScorePos(x, y);
 		toggleRenderScoreFlag();
 	}
-	else if (eaten(ghost_color))
+	else if (!eaten(ghost_color))
 		togglePlayerEatenFlag();
 }
 
