@@ -82,6 +82,7 @@ public:
 	virtual std::map<Direction, position> getOppositePos(Direction last_dir);
 
 	bool escaped() const { return m_escaped; }
+	bool canEatPlayer();
 
 protected:
 	bool m_escaped{ false };

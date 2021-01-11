@@ -183,7 +183,7 @@ void Ghost::updateMapPos(World& world)
 
 	if (next_tile == 'C')
 	{
-		if (m_mode != Mode::FLEE && m_mode != Mode::EATEN)
+		if (canEatPlayer())
 			world.togglePlayerEatenFlag();
 		else
 		{
@@ -194,6 +194,15 @@ void Ghost::updateMapPos(World& world)
 	}
 
 	setMapTile(world, next_tile, new_x, new_y);
+}
+
+bool Ghost::canEatPlayer()
+{
+	if (m_mode != Mode::FLEE &&
+		m_mode != Mode::EATEN)
+		return true;
+
+	return false;
 }
 
 position Red::getChasePos(position pacman_pos, position red_pos, Direction pacman_dir)
