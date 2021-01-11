@@ -53,10 +53,14 @@ public:
     bool blueVulnerable() const { return m_blue_vulnerable; }
     bool orangeVulnerable() const { return m_orange_vulnerable; }
 
+    bool vulnerable(color ghost_color);
+
     bool redEaten() const { return m_red_eaten; }
     bool pinkEaten() const { return m_pink_eaten; }
     bool blueEaten() const { return m_blue_eaten; }
     bool orangeEaten() const { return m_orange_eaten; }
+
+    bool eaten(color ghost_color);
 
     bool bigPointEaten() const { return m_big_point_eaten; }
 
@@ -86,7 +90,7 @@ public:
 
     void toggleRenderScoreFlag() { m_render_score = !m_render_score; }
 
-    void handleCollision(int y, int x, color ghost);
+    void handleCollision(int y, int x, color ghost_color);
     void updatePlayerPos(int old_y, int old_x, int new_y, int new_x);
     void resetPlayer();
     void resetGhost();

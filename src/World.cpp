@@ -34,6 +34,50 @@ World::~World()
 	SDL_DestroyTexture(m_berry_tex);
 }
 
+bool World::vulnerable(color ghost_color)
+{
+	switch (ghost_color)
+	{
+		case RED:    
+			return m_red_vulnerable;    
+			break;
+		case PINK:   
+			return m_pink_vulnerable;   
+			break;
+		case BLUE:   
+			return m_blue_vulnerable;   
+			break;
+		case ORANGE: 
+			return m_orange_vulnerable; 
+			break;
+		default:     
+			return false;              
+			break;
+	}
+}
+
+bool World::eaten(color ghost_color)
+{
+	switch (ghost_color)
+	{
+		case RED:    
+			return m_red_eaten;    
+			break;
+		case PINK:   
+			return m_pink_eaten;   
+			break;
+		case BLUE:   
+			return m_blue_eaten;   
+			break;
+		case ORANGE: 
+			return m_orange_eaten; 
+			break;
+		default:     
+			return false;          
+			break;
+	}
+}
+
 void World::loadDetails(SDL_Renderer* renderer)
 {
 	m_area_tex = loadTexture("Sprites/area.png", renderer);
@@ -95,16 +139,16 @@ void World::setAllGhostsVulnerable()
 	m_orange_vulnerable = true;
 }
 
-void World::handleCollision(int y, int x, color ghost)
+void World::handleCollision(int y, int x, color ghost_color)
 {
-	if (redVulnerable())
+	if (vulnerable(ghost_color))
 	{
-		toggleRedVulnerableFlag();
-		toggleRedEatenFlag();
+		toggleVulnerableFlag(ghost_color);
+		toggleEatenFlag(ghost_color);
 		setScorePos(x, y);
 		toggleRenderScoreFlag();
 	}
-	else if (!redEaten())
+	else if (eaten(ghost_color))
 		togglePlayerEatenFlag();
 }
 
@@ -121,10 +165,18 @@ void World::toggleVulnerableFlag(color ghost_color)
 {
 	switch (ghost_color)
 	{
-		case RED:    toggleRedVulnerableFlag();    break;
-		case PINK:   togglePinkVulnerableFlag();   break;
-		case BLUE:   toggleBlueVulnerableFlag();   break;
-		case ORANGE: toggleOrangeVulnerableFlag(); break;
+		case RED:    
+			toggleRedVulnerableFlag();    
+			break;
+		case PINK:   
+			togglePinkVulnerableFlag();   
+			break;
+		case BLUE:   
+			toggleBlueVulnerableFlag();   
+			break;
+		case ORANGE: 
+			toggleOrangeVulnerableFlag(); 
+			break;
 	}
 }
 
@@ -132,10 +184,18 @@ void World::toggleEatenFlag(color ghost_color)
 {
 	switch (ghost_color)
 	{
-		case RED:    toggleRedEatenFlag();    break;
-		case PINK:   togglePinkEatenFlag();   break;
-		case BLUE:   toggleBlueEatenFlag();   break;
-		case ORANGE: toggleOrangeEatenFlag(); break;
+		case RED:    
+			toggleRedEatenFlag();    
+			break;
+		case PINK:   
+			togglePinkEatenFlag();  
+			break;
+		case BLUE:   
+			toggleBlueEatenFlag();   
+			break;
+		case ORANGE: 
+			toggleOrangeEatenFlag();
+			break;
 	}
 }
 
