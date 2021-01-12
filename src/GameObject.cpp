@@ -22,11 +22,19 @@ bool GameObject::atRightmostPos()
 
 void Ghost::changeMode(Mode mode)
 { 
-	if (mode == Mode::EATEN)
-		setSpeed(0.25f);
-
-	if (m_mode == Mode::SCATTER || m_mode == Mode::CHASE)
-		m_reverse_dir = true;
+	switch (mode)
+	{
+		case Mode::FLEE:
+			m_flee_ending = false;
+			break;
+		case Mode::EATEN:
+			setSpeed(0.25f);
+			break;
+		case Mode::SCATTER:
+		case Mode::CHASE:
+			m_reverse_dir = true;
+			break;
+	}
 
 	setMode(mode); 
 }
