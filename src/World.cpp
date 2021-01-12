@@ -120,12 +120,23 @@ void World::resetGhost()
 	togglePinkEatenFlag();
 }
 
-void World::setAllGhostsVulnerable()
+void World::setGhostVulnerable(color ghost_color)
 {
-	m_red_vulnerable = true;
-	m_pink_vulnerable = true;
-	m_blue_vulnerable = true;
-	m_orange_vulnerable = true;
+	switch (ghost_color)
+	{
+		case RED:
+			m_red_vulnerable = true;
+			break;
+		case PINK:
+			m_pink_vulnerable = true;
+			break;
+		case BLUE:
+			m_blue_vulnerable = true;
+			break;
+		case ORANGE:
+			m_orange_vulnerable = true;
+			break;
+	}
 }
 
 void World::handleCollision(int y, int x, color ghost_color)

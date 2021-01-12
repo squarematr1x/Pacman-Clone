@@ -71,7 +71,7 @@ public:
 
     char getGhostBuffer(int index) const{ return m_ghost_buffer[index]; }
     void setGhostBuffer(char c, int index);
-    void setAllGhostsVulnerable();
+    void setGhostVulnerable(color ghost_color);
 
     void toggleRedVulnerableFlag() { m_red_vulnerable = !m_red_vulnerable; }
     void togglePinkVulnerableFlag() { m_pink_vulnerable = !m_pink_vulnerable; }
@@ -139,6 +139,7 @@ private:
     bool m_big_point_eaten{ false };
     bool m_render_score{ false };
 
+    // Change this to 1D and std::array?
     char m_map[28][23] = {
         {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
         {'#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
