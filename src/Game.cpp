@@ -249,12 +249,6 @@ void Game::updateGhostMode()
 				ghost->changeMode(Mode::SCATTER);
 		}
 	}
-
-	// Mode times: STATE MACHINE?
-	// Scatter for 7 seconds, then Chase for 20 seconds.
-	// Scatter for 7 seconds, then Chase for 20 seconds.
-	// Scatter for 5 seconds, then Chase for 20 seconds.
-	// Scatter for 5 seconds, then switch to Chase mode permanently.
 }
 
 void Game::render()
