@@ -122,6 +122,8 @@ void Game::checkGhosts()
 	std::cout << "Pnk vul: " << m_world.pinkVulnerable() << '\n';
 	std::cout << "Blu vul: " << m_world.blueVulnerable() << '\n';
 	std::cout << "Org vul: " << m_world.orangeVulnerable() << '\n';
+
+	std::cout << "\nPac hp: " << m_pacman->getLives() << '\n';
 }
 
 void Game::update()
@@ -131,32 +133,16 @@ void Game::update()
 
 	m_pacman->updatePos(m_next_dir, m_world);
 
-	if (m_world.redEaten())
-	{
-		m_pacman->addToScore(200);
-		m_ghosts[RED]->changeMode(Mode::EATEN);
-	}
-
-	if (m_world.pinkEaten())
-	{
-		m_pacman->addToScore(200);
-		m_ghosts[PINK]->changeMode(Mode::EATEN);
-	}
-
-	if (m_world.blueEaten())
-	{
-		m_pacman->addToScore(200);
-		m_ghosts[BLUE]->changeMode(Mode::EATEN);
-	}
-
-	if (m_world.orangeEaten())
-	{
-		m_pacman->addToScore(200);
-		m_ghosts[ORANGE]->changeMode(Mode::EATEN);
-	}
-
 	for (auto ghost : m_ghosts)
+	{
+		if (m_world.eaten(ghost->getColor()))
+		{
+			ghost->changeMode(Mode::EATEN);
+			m_pacman->addToScore(200);
+		}
+
 		ghost->update(m_pacman->getPos(), m_ghosts[RED]->getPos(), m_pacman->getDir(), m_world);
+	}
 
 	if (m_world.playerEaten())
 	{
@@ -177,8 +163,7 @@ void Game::update()
 		for (auto ghost : m_ghosts)
 		{
 			if (ghost->getMode() != Mode::REST)
-				ghost->changeMode(Mode::FLEE);
-				
+				ghost->changeMode(Mode::FLEE);	
 		}
 
 		m_world.toggleBigPointEatenFlag();
