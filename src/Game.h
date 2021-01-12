@@ -29,9 +29,9 @@ public:
 	bool running() const { return m_running; }
 	bool pause() const { return m_pause; }
 	bool fleeing() const { return m_flee; }
-	bool releaseRed();
-	bool releaseBlue();
-	bool releaseOrange();
+	bool canReleaseRed();
+	bool canReleaseBlue();
+	bool canReleaseOrange();
 
 	void checkGhosts();
 

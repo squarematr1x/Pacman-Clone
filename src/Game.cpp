@@ -75,7 +75,9 @@ void Game::handleInput()
 
 	switch (event.type)
 	{
-		case SDL_QUIT: m_running = false; break;
+		case SDL_QUIT: 
+			m_running = false; 
+			break;
 		case SDL_KEYDOWN:
 		{
 			switch (event.key.keysym.sym)
@@ -87,15 +89,29 @@ void Game::handleInput()
 
 					if (fleeing())
 						m_flee_timer.togglePause();
-				} break;
-				case SDLK_LEFT:   m_next_dir = Direction::LEFT;  break;
-				case SDLK_RIGHT:  m_next_dir = Direction::RIGHT; break;
-				case SDLK_UP:     m_next_dir = Direction::UP;    break;
-				case SDLK_DOWN:   m_next_dir = Direction::DOWN;  break;
-				case SDLK_SPACE:  m_world.printMap();            break;
-				case SDLK_LCTRL:  checkGhosts();                 break;
+				} 
+				break;
+				case SDLK_LEFT:   
+					m_next_dir = Direction::LEFT;  
+					break;
+				case SDLK_RIGHT:  
+					m_next_dir = Direction::RIGHT; 
+					break;
+				case SDLK_UP:     
+					m_next_dir = Direction::UP;    
+					break;
+				case SDLK_DOWN:   
+					m_next_dir = Direction::DOWN;  
+					break;
+				case SDLK_SPACE:  
+					m_world.printMap();            
+					break;
+				case SDLK_LCTRL:  
+					checkGhosts();                 
+					break;
 			}
-		} break;
+		} 
+		break;
 	}
 }
 
@@ -171,13 +187,13 @@ void Game::update()
 		m_world.setAllGhostsVulnerable();
 	}
 
-	if (releaseRed())
+	if (canReleaseRed())
 	{
 		m_ghosts[RED]->setMode(Mode::START);
 		m_red_free = true;
 	}
 
-	if (releaseBlue())
+	if (canReleaseBlue())
 	{
 		m_ghosts[BLUE]->setMode(Mode::START);
 		m_blue_free = true;
@@ -185,7 +201,7 @@ void Game::update()
 
 	if (m_world.getPoints() == 0)
 		m_running = false; // Victory (show text)
-	else if (releaseOrange())
+	else if (canReleaseOrange())
 	{
 		m_orange_free = true;
 		m_ghosts[ORANGE]->setMode(Mode::START);
@@ -284,7 +300,7 @@ void Game::clean()
 	SDL_Quit();
 }
 
-bool Game::releaseRed()
+bool Game::canReleaseRed()
 {
 	if (!m_red_free && m_ghosts[PINK]->escaped())
 		return true;
@@ -292,7 +308,7 @@ bool Game::releaseRed()
 	return false;
 }
 
-bool Game::releaseBlue()
+bool Game::canReleaseBlue()
 {
 	if (!m_blue_free && m_pacman->getScore() > 300)
 		return true;
@@ -300,7 +316,7 @@ bool Game::releaseBlue()
 	return false;
 }
 
-bool Game::releaseOrange()
+bool Game::canReleaseOrange()
 {
 	if (!m_orange_free && m_world.getPoints() == 130)
 		return true;
