@@ -52,9 +52,9 @@ protected:
 class Ghost : public GameObject
 {
 public:
-	Ghost(Sprite* sprite, Mode mode, position scatter_dest)
+	Ghost(Sprite* sprite, Mode mode, position scatter_dest, color col)
 		: GameObject(sprite, 0.125f, { 12.0f, 13.0f }, mode),
-		  m_scatter_dest(scatter_dest)
+		  m_scatter_dest(scatter_dest), m_color(col)
 	{
 	}
 
@@ -81,6 +81,8 @@ public:
 	virtual std::map<Direction, position> getPossiblePos(Direction last_dir);
 	virtual std::map<Direction, position> getOppositePos(Direction last_dir);
 
+	color getColor() const { return m_color; }
+
 	bool escaped() const { return m_escaped; }
 	bool canEatPlayer();
 
@@ -92,13 +94,15 @@ protected:
 
 	position m_scatter_dest;
 	world_position m_world_pos{ 0, 0 };
+
+	color m_color;
 };
 
 class Red : public Ghost
 {
 public:
 	Red(Sprite* sprite, position scatter_dest = {21.0f, 0.0f})
-		: Ghost(sprite, Mode::REST, scatter_dest)
+		: Ghost(sprite, Mode::REST, scatter_dest, RED)
 	{
 	}
 
@@ -114,7 +118,7 @@ class Pink : public Ghost
 {
 public:
 	Pink(Sprite* sprite, position scatter_dest = {1.0f, 0.0f})
-		: Ghost(sprite, Mode::START, scatter_dest)
+		: Ghost(sprite, Mode::START, scatter_dest, PINK)
 	{
 	}
 
@@ -130,7 +134,7 @@ class Blue : public Ghost
 {
 public:
 	Blue(Sprite* sprite, position scatter_dest = { 22.0f, 26.0f })
-		: Ghost(sprite, Mode::REST, scatter_dest)
+		: Ghost(sprite, Mode::REST, scatter_dest, BLUE)
 	{
 	}
 
@@ -146,7 +150,7 @@ class Orange : public Ghost
 {
 public:
 	Orange(Sprite* sprite, position scatter_dest = { 0.0f, 26.0f })
-		: Ghost(sprite, Mode::REST, scatter_dest)
+		: Ghost(sprite, Mode::REST, scatter_dest, ORANGE)
 	{
 	}
 
