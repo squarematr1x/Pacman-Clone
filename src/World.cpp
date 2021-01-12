@@ -111,7 +111,6 @@ void World::renderScore(SDL_Renderer* renderer)
 
 void World::resetPlayer()
 {
-	m_map[20][13] = 'C';
 	togglePlayerEatenFlag();
 }
 
