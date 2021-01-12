@@ -155,6 +155,8 @@ void Game::update()
 
 	if (m_world.bigPointEaten())
 	{
+		m_world.toggleBigPointEatenFlag();
+
 		m_flee = true;
 
 		m_timer.pause();
@@ -163,14 +165,11 @@ void Game::update()
 		for (auto ghost : m_ghosts)
 		{
 			if (ghost->getMode() != Mode::REST)
-				ghost->changeMode(Mode::FLEE);	
+			{
+				ghost->changeMode(Mode::FLEE);
+				m_world.setGhostVulnerable(ghost->getColor());
+			}
 		}
-
-		m_world.toggleBigPointEatenFlag();
-
-		// FIXME: Don't set imprisoned ghosts vulnerable
-		// FIXME: Change all toggle to setVar(bool)
-		m_world.setAllGhostsVulnerable();
 	}
 
 	if (canReleaseRed())
