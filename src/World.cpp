@@ -114,12 +114,6 @@ void World::resetPlayer()
 	togglePlayerEatenFlag();
 }
 
-void World::resetGhost()
-{
-	// prototyping...
-	togglePinkEatenFlag();
-}
-
 void World::setGhostVulnerable(color ghost_color)
 {
 	switch (ghost_color)
@@ -141,7 +135,7 @@ void World::setGhostVulnerable(color ghost_color)
 	}
 }
 
-void World::handleCollision(int y, int x, color ghost_color)
+void World::resolveCollision(int y, int x, color ghost_color)
 {
 	if (vulnerable(ghost_color))
 	{
@@ -235,6 +229,17 @@ void World::calculatePoints()
 			else if (m_map[i][j] == '@')
 				m_big_points++;
 		}
+	}
+}
+
+void World::printMap()
+{
+	for (int i = 0; i < 28; i++)
+	{
+		for (int j = 0; j < 23; j++)
+			std::cout << m_map[i][j];
+
+		std::cout << '\n';
 	}
 }
 

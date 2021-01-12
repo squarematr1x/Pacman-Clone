@@ -90,22 +90,11 @@ public:
 
     void toggleRenderScoreFlag() { m_render_score = !m_render_score; }
 
-    void handleCollision(int y, int x, color ghost_color);
+    void resolveCollision(int y, int x, color ghost_color);
     void updatePlayerPos(int old_y, int old_x, int new_y, int new_x);
     void resetPlayer();
-    void resetGhost();
 
-    void printMap()
-    {
-        for (int i = 0; i < 28; i++)
-        {
-            for (int j = 0; j < 23; j++)
-            {
-                std::cout << m_map[i][j];
-            }
-            std::cout << '\n';
-        }
-    }
+    void printMap();
 
 private:
     SDL_Rect m_src{ 0, 0, 32, 32 };

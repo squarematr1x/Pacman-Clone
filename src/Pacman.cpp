@@ -68,16 +68,16 @@ void Pacman::updateWorld(World& world, int y, int x)
 			m_score += 20;
 			break;
 		case 'R':
-			world.handleCollision(y, x, RED);
+			world.resolveCollision(y, x, RED);
 			break;
 		case 'P':
-			world.handleCollision(y, x, PINK);
+			world.resolveCollision(y, x, PINK);
 			break;
 		case 'B':
-			world.handleCollision(y, x, BLUE);
+			world.resolveCollision(y, x, BLUE);
 			break;
 		case 'O':
-			world.handleCollision(y, x, ORANGE);
+			world.resolveCollision(y, x, ORANGE);
 			break;
 		default:
 			break;
