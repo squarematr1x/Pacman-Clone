@@ -178,6 +178,7 @@ void Game::update()
 		{
 			if (ghost->getMode() != Mode::REST)
 				ghost->changeMode(Mode::FLEE);
+				
 		}
 
 		m_world.toggleBigPointEatenFlag();

@@ -79,14 +79,21 @@ std::map<Direction, position> Ghost::getOppositePos(Direction last_dir)
 {
 	std::map<Direction, position> possible_pos;
 
-	if (last_dir == Direction::UP)
-		possible_pos.insert({ Direction::DOWN,  { m_pos.x, m_pos.y + 1.0f } });
-	else if (last_dir == Direction::DOWN)
-		possible_pos.insert({ Direction::UP,    { m_pos.x, m_pos.y - 1.0f } });
-	else if (last_dir == Direction::LEFT)
-		possible_pos.insert({ Direction::RIGHT, { m_pos.x + 1.0f, m_pos.y } });
-	else if (last_dir == Direction::RIGHT)
-		possible_pos.insert({ Direction::LEFT,  { m_pos.x - 1.0f, m_pos.y } });
+	switch (last_dir)
+	{
+		case Direction::UP:
+			possible_pos.insert({ Direction::DOWN,  { m_pos.x, m_pos.y + 1.0f } });
+			break;
+		case Direction::DOWN:
+			possible_pos.insert({ Direction::UP,    { m_pos.x, m_pos.y - 1.0f } });
+			break;
+		case Direction::LEFT:
+			possible_pos.insert({ Direction::RIGHT, { m_pos.x + 1.0f, m_pos.y } });
+			break;
+		case Direction::RIGHT:
+			possible_pos.insert({ Direction::LEFT,  { m_pos.x - 1.0f, m_pos.y } });
+			break;
+	}
 
 	return possible_pos;
 }
@@ -147,23 +154,30 @@ void Ghost::updatePos(int x, int y, Direction dir, World& world)
 {
 	updateLastPos(x, y, world);
 
-	if (dir == Direction::UP)
-		m_pos.y -= m_speed;
-	else if (dir == Direction::DOWN)
-		m_pos.y += m_speed;
-	else if (dir == Direction::LEFT)
+	switch (dir)
 	{
-		if (atLeftmostPos())
-			m_pos.x = 22.0f;
-		else
-			m_pos.x -= m_speed;
-	}
-	else if (dir == Direction::RIGHT)
-	{
-		if (atRightmostPos())
-			m_pos.x = 0.0f;
-		else
-			m_pos.x += m_speed;
+		case Direction::UP:
+			m_pos.y -= m_speed;
+			break;
+		case Direction::DOWN:
+			m_pos.y += m_speed;
+			break;
+		case Direction::LEFT:
+		{
+			if (atLeftmostPos())
+				m_pos.x = 22.0f;
+			else
+				m_pos.x -= m_speed;
+			break;
+		}
+		case Direction::RIGHT:
+		{
+			if (atRightmostPos())
+				m_pos.x = 0.0f;
+			else
+				m_pos.x += m_speed;
+			break;
+		}
 	}
 
 	updateMapPos(world);
@@ -236,17 +250,23 @@ void Red::setMapTile(World& world, char next_tile, int x, int y)
 position Pink::getChasePos(position pacman_pos, position red_pos, Direction pacman_dir)
 {
 	(void)red_pos;
+	position offset{ 0.0f, 0.0f };
 
-	position offset;
-
-	if (pacman_dir == Direction::UP)
-		offset = { 0.0f, -4.0f };
-	else if (pacman_dir == Direction::DOWN)
-		offset = { 0.0f, 4.0f };
-	else if (pacman_dir == Direction::LEFT)
-		offset = { -4.0f, 0.0f };
-	else if (pacman_dir == Direction::RIGHT)
-		offset = { 4.0f, 0.0f };
+	switch (pacman_dir)
+	{
+		case Direction::UP:
+			offset = { 0.0f, -4.0f };
+			break;
+		case Direction::DOWN:
+			offset = { 0.0f, 4.0f };
+			break;
+		case Direction::LEFT:
+			offset = { -4.0f, 0.0f };
+			break;
+		case Direction::RIGHT:
+			offset = { 4.0f, 0.0f };
+			break;
+	}
 
 	return pacman_pos + offset;
 }
@@ -274,16 +294,23 @@ void Pink::setMapTile(World& world, char next_tile, int x, int y)
 
 position Blue::getChasePos(position pacman_pos, position red_pos, Direction pacman_dir)
 {
-	position offset;
+	position offset{ 0.0f, 0.0f };
 
-	if (pacman_dir == Direction::UP)
-		offset = { 0.0f, -2.0f };
-	else if (pacman_dir == Direction::DOWN)
-		offset = { 0.0f, 2.0f };
-	else if (pacman_dir == Direction::LEFT)
-		offset = { -2.0f, 0.0f };
-	else if (pacman_dir == Direction::RIGHT)
-		offset = { 2.0f, 0.0f };
+	switch (pacman_dir)
+	{
+		case Direction::UP:
+			offset = { 0.0f, -2.0f };
+			break;
+		case Direction::DOWN:
+			offset = { 0.0f, 2.0f };
+			break;
+		case Direction::LEFT:
+			offset = { -2.0f, 0.0f };
+			break;
+		case Direction::RIGHT:
+			offset = { 2.0f, 0.0f };
+			break;
+	}
 
 	offset = pacman_pos + offset;
 

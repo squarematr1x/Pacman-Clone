@@ -58,25 +58,25 @@ void Pacman::updateWorld(World& world, int y, int x)
 {
 	switch (world.tileAt(y, x))
 	{
-	case '*':
-		m_score += 10;
-		break;
-	case '@':
-		world.toggleBigPointEatenFlag();
-		m_score += 20;
-		break;
-	case 'R':
-		world.handleCollision(y, x, RED);
-		break;
-	case 'P':
-		world.handleCollision(y, x, PINK);
-		break;
-	case 'B':
-		world.handleCollision(y, x, BLUE);
-		break;
-	case 'O':
-		world.handleCollision(y, x, ORANGE);
-		break;
+		case '*':
+			m_score += 10;
+			break;
+		case '@':
+			world.toggleBigPointEatenFlag();
+			m_score += 20;
+			break;
+		case 'R':
+			world.handleCollision(y, x, RED);
+			break;
+		case 'P':
+			world.handleCollision(y, x, PINK);
+			break;
+		case 'B':
+			world.handleCollision(y, x, BLUE);
+			break;
+		case 'O':
+			world.handleCollision(y, x, ORANGE);
+			break;
 	}
 }
 
