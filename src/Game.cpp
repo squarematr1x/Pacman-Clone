@@ -109,15 +109,18 @@ void Game::handleInput()
 				case SDLK_LCTRL:  
 					checkGhosts();                 
 					break;
+				default:
+					break;
 			}
 		} 
 		break;
+		default:
+			break;
 	}
 }
 
 void Game::checkGhosts()
 {
-	// Problem found: vulnerable flag not reset after flee mode (if ghost wasn't eaten in this phase)
 	std::cout << "Red vul: " << m_world.redVulnerable() << '\n';
 	std::cout << "Pnk vul: " << m_world.pinkVulnerable() << '\n';
 	std::cout << "Blu vul: " << m_world.blueVulnerable() << '\n';

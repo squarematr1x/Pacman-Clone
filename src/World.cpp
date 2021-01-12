@@ -136,6 +136,8 @@ void World::setGhostVulnerable(color ghost_color)
 		case ORANGE:
 			m_orange_vulnerable = true;
 			break;
+		default:
+			break;
 	}
 }
 
@@ -177,6 +179,8 @@ void World::toggleVulnerableFlag(color ghost_color)
 		case ORANGE: 
 			toggleOrangeVulnerableFlag(); 
 			break;
+		default:
+			break;
 	}
 }
 
@@ -195,6 +199,8 @@ void World::toggleEatenFlag(color ghost_color)
 			break;
 		case ORANGE: 
 			toggleOrangeEatenFlag();
+			break;
+		default:
 			break;
 	}
 }

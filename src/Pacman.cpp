@@ -29,6 +29,8 @@ void Pacman::updatePos(Direction dir, World& world)
 				next_pos.x += m_speed;
 			break;
 		}
+		default:
+			break;
 	}
 
 	validatePos(next_pos, world);
@@ -76,6 +78,8 @@ void Pacman::updateWorld(World& world, int y, int x)
 			break;
 		case 'O':
 			world.handleCollision(y, x, ORANGE);
+			break;
+		default:
 			break;
 	}
 }

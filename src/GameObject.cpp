@@ -101,6 +101,8 @@ std::map<Direction, position> Ghost::getOppositePos(Direction last_dir)
 		case Direction::RIGHT:
 			possible_pos.insert({ Direction::LEFT,  { m_pos.x - 1.0f, m_pos.y } });
 			break;
+		default:
+			break;
 	}
 
 	return possible_pos;
@@ -186,6 +188,8 @@ void Ghost::updatePos(int x, int y, Direction dir, World& world)
 				m_pos.x += m_speed;
 			break;
 		}
+		default:
+			break;
 	}
 
 	updateMapPos(world);
@@ -274,6 +278,8 @@ position Pink::getChasePos(position pacman_pos, position red_pos, Direction pacm
 		case Direction::RIGHT:
 			offset = { 4.0f, 0.0f };
 			break;
+		default:
+			break;
 	}
 
 	return pacman_pos + offset;
@@ -317,6 +323,8 @@ position Blue::getChasePos(position pacman_pos, position red_pos, Direction pacm
 			break;
 		case Direction::RIGHT:
 			offset = { 2.0f, 0.0f };
+			break;
+		default:
 			break;
 	}
 
