@@ -41,7 +41,9 @@ public:
 
     void setScorePos(int x, int y) { m_score_pos.x = x; m_score_pos.y = y; }
 
-    int getPoints() { return m_points; }
+    int getPoints() const { return m_points; }
+
+    bool canRenderScore() const { return m_render_score; }
 
     bool isWall(int y, int x, bool fence_on);
     bool isWall(position pos, bool fence_on);

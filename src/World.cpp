@@ -34,46 +34,12 @@ World::~World()
 	SDL_DestroyTexture(m_berry_tex);
 }
 
-bool World::vulnerable(color ghost_color)
-{
-	switch (ghost_color)
-	{
-		case RED:    
-			return m_red_vulnerable;    
-		case PINK:   
-			return m_pink_vulnerable;   
-		case BLUE:   
-			return m_blue_vulnerable;   
-		case ORANGE: 
-			return m_orange_vulnerable; 
-		default:     
-			return false;              
-	}
-}
-
-bool World::eaten(color ghost_color)
-{
-	switch (ghost_color)
-	{
-		case RED:    
-			return m_red_eaten;    
-		case PINK:   
-			return m_pink_eaten;   
-		case BLUE:   
-			return m_blue_eaten;   
-		case ORANGE: 
-			return m_orange_eaten; 
-		default:     
-			return false;          
-	}
-}
-
 void World::loadDetails(SDL_Renderer* renderer)
 {
 	m_area_tex = loadTexture("Sprites/area.png", renderer);
 	m_point_tex = loadTexture("Sprites/point.png", renderer);
 	m_big_point_tex = loadTexture("Sprites/big_point.png", renderer);
-	m_score_tex = loadTexture("Sprites/test.png", renderer);
+	m_score_tex = loadTexture("Sprites/score.png", renderer);
 	m_berry_tex = loadTexture("Sprites/berry.png", renderer);
 }
 
@@ -98,9 +64,6 @@ void World::render(SDL_Renderer* renderer)
 				draw(m_berry_tex, renderer, m_src, m_dest);
 		}
 	}
-
-	if (m_render_score)
-		renderScore(renderer);
 }
 
 void World::renderScore(SDL_Renderer* renderer)
@@ -196,6 +159,40 @@ void World::toggleEatenFlag(color ghost_color)
 			break;
 		default:
 			break;
+	}
+}
+
+bool World::vulnerable(color ghost_color)
+{
+	switch (ghost_color)
+	{
+	case RED:
+		return m_red_vulnerable;
+	case PINK:
+		return m_pink_vulnerable;
+	case BLUE:
+		return m_blue_vulnerable;
+	case ORANGE:
+		return m_orange_vulnerable;
+	default:
+		return false;
+	}
+}
+
+bool World::eaten(color ghost_color)
+{
+	switch (ghost_color)
+	{
+	case RED:
+		return m_red_eaten;
+	case PINK:
+		return m_pink_eaten;
+	case BLUE:
+		return m_blue_eaten;
+	case ORANGE:
+		return m_orange_eaten;
+	default:
+		return false;
 	}
 }
 

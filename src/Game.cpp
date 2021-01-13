@@ -127,6 +127,7 @@ void Game::checkGhosts()
 	std::cout << "Org vul: " << m_world.orangeVulnerable() << '\n';
 
 	std::cout << "\nPac hp: " << m_pacman->getLives() << '\n';
+	std::cout << "#points left: " << m_world.getPoints() << '\n';
 }
 
 void Game::update()
@@ -263,6 +264,9 @@ void Game::render()
 
 	if (pause())
 		SDL_RenderCopy(m_renderer, m_text, NULL, &m_text_rect);
+
+	if (m_world.canRenderScore())
+		m_world.renderScore(m_renderer);
 
 	SDL_RenderPresent(m_renderer);
 }
