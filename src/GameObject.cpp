@@ -46,7 +46,6 @@ void Ghost::start(int x, int y, World& world)
 		if (m_mode == Mode::EATEN)
 		{
 			reset(world);
-			world.toggleRenderScoreFlag();
 			setSpeed(0.125f);
 
 			if (m_flee_ending)

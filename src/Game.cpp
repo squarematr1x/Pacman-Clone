@@ -107,7 +107,7 @@ void Game::handleInput()
 					m_world.printMap();            
 					break;
 				case SDLK_LCTRL:  
-					checkGhosts();                 
+					gameInfo();                 
 					break;
 				default:
 					break;
@@ -119,7 +119,7 @@ void Game::handleInput()
 	}
 }
 
-void Game::checkGhosts()
+void Game::gameInfo()
 {
 	std::cout << "Red vul: " << m_world.redVulnerable() << '\n';
 	std::cout << "Pnk vul: " << m_world.pinkVulnerable() << '\n';
@@ -134,6 +134,19 @@ void Game::update()
 {
 	if (pause())
 		return;
+
+	if (m_display_score)
+	{
+		m_score_timer.update();
+
+		if (m_score_timer.time() >= m_score_time)
+		{
+			m_display_score = false;
+			m_world.toggleRenderScoreFlag();
+		}
+		else
+			return;
+	}
 
 	m_pacman->updatePos(m_next_dir, m_world);
 
@@ -189,7 +202,7 @@ void Game::update()
 	}
 
 	if (m_world.getPoints() == 0)
-		m_running = false; // Victory (show text)
+		m_running = false;
 	else if (canReleaseOrange())
 	{
 		m_orange_free = true;
@@ -266,7 +279,14 @@ void Game::render()
 		SDL_RenderCopy(m_renderer, m_text, NULL, &m_text_rect);
 
 	if (m_world.canRenderScore())
+	{
 		m_world.renderScore(m_renderer);
+
+		if (!m_display_score)
+			m_score_timer.reset();
+
+		m_display_score = true;
+	}
 
 	SDL_RenderPresent(m_renderer);
 }

@@ -33,11 +33,12 @@ public:
 	bool canReleaseBlue();
 	bool canReleaseOrange();
 
-	void checkGhosts();
+	void gameInfo();
 
 private:
 	bool m_running{ true };
 	bool m_pause{ false };
+	bool m_display_score{ false };
 	bool m_red_free{ false };
 	bool m_blue_free{ false };
 	bool m_orange_free{ false };
@@ -46,6 +47,7 @@ private:
 
 	int m_score{ 0 };
 	unsigned int m_time_limit{ 7000 };
+	unsigned int m_score_time{ 500 };
 
 	SDL_Window* m_window;
 	SDL_Renderer* m_renderer;
@@ -60,5 +62,6 @@ private:
 	SDL_Rect m_text_rect;
 
 	Timer m_timer;
+	Timer m_score_timer;
 	Timer m_flee_timer;
 };
