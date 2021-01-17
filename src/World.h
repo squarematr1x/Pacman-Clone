@@ -45,7 +45,7 @@ public:
 
     bool canRenderScore() const { return m_render_score; }
 
-    bool isWall(int y, int x, bool fence_on);
+    bool isWall(int y, int x, bool fence_on = true);
     bool isWall(position pos, bool fence_on);
 
     bool playerEaten() const { return m_player_eaten; }
