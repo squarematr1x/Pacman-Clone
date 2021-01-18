@@ -138,6 +138,9 @@ void Game::gameInfo()
 
 void Game::update()
 {
+	if (m_pacman->getLives() == 0)
+		m_running = false;
+
 	if (pause())
 		return;
 
@@ -155,12 +158,7 @@ void Game::update()
 	}
 
 	if (m_world.playerEaten())
-	{
 		m_pacman->setDead();
-
-		if (m_pacman->getLives() == 0)
-			m_running = false;
-	}
 
 	if (m_world.bigPointEaten())
 	{
