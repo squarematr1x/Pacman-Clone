@@ -279,7 +279,14 @@ void Game::render()
 
 	if (pause())
 		SDL_RenderCopy(m_renderer, m_pause_text, NULL, &m_pause_text_rect);
+	
+	renderScore();
 
+	SDL_RenderPresent(m_renderer);
+}
+
+void Game::renderScore()
+{
 	if (m_world.canRenderScore())
 	{
 		m_world.renderScore(m_renderer);
@@ -289,8 +296,6 @@ void Game::render()
 
 		m_world.toggleRenderScoreFlag();
 	}
-
-	SDL_RenderPresent(m_renderer);
 }
 
 void Game::clean()
