@@ -64,6 +64,5 @@ private:
 	SDL_Rect m_end_text_rect;
 
 	Timer m_timer;
-	Timer m_score_timer;
 	Timer m_flee_timer;
 };

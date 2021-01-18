@@ -59,13 +59,16 @@ void Game::init(const char* title, int x_pos, int y_pos, int width, int height)
 
 	m_pause_text = SDL_CreateTextureFromSurface(m_renderer, pause_surface);
 	m_end_text = SDL_CreateTextureFromSurface(m_renderer, end_surface);
+
 	SDL_FreeSurface(pause_surface);
 	SDL_FreeSurface(end_surface);
+
 	SDL_QueryTexture(m_pause_text, NULL, NULL, 0, 0);
 	SDL_QueryTexture(m_end_text, NULL, NULL, 0, 0);
 
 	int pause_text_w = 64, pause_text_h = 32;
 	int end_text_w = 96, end_text_h = 64;
+
 	m_pause_text_rect = { width/2 - pause_text_w/2, 0, pause_text_w, pause_text_h };
 	m_end_text_rect =   { width/2 - end_text_w/2, height/4, end_text_w, end_text_h };
 
