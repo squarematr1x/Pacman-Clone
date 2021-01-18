@@ -38,7 +38,6 @@ public:
 private:
 	bool m_running{ true };
 	bool m_pause{ false };
-	bool m_display_score{ false };
 	bool m_red_free{ false };
 	bool m_blue_free{ false };
 	bool m_orange_free{ false };
@@ -47,7 +46,6 @@ private:
 
 	int m_score{ 0 };
 	unsigned int m_time_limit{ 7000 };
-	unsigned int m_score_time{ 500 };
 
 	SDL_Window* m_window;
 	SDL_Renderer* m_renderer;
@@ -58,8 +56,10 @@ private:
 	Pacman* m_pacman{ nullptr };
 	std::vector<Ghost*> m_ghosts;
 
-	SDL_Texture* m_text;
-	SDL_Rect m_text_rect;
+	SDL_Texture* m_pause_text;
+	SDL_Rect m_pause_text_rect;
+	SDL_Texture* m_end_text;
+	SDL_Rect m_end_text_rect;
 
 	Timer m_timer;
 	Timer m_score_timer;

@@ -53,15 +53,21 @@ void Game::init(const char* title, int x_pos, int y_pos, int width, int height)
 		exit(EXIT_FAILURE);
 	}
 
-	SDL_Surface* surface = TTF_RenderText_Solid(font, "Pause", color);
+	SDL_Surface* pause_surface = TTF_RenderText_Solid(font, "Pause", color);
+	SDL_Surface* end_surface = TTF_RenderText_Solid(font, "Game Over", color);
 	TTF_CloseFont(font);
 
-	m_text = SDL_CreateTextureFromSurface(m_renderer, surface);
-	SDL_FreeSurface(surface);
-	SDL_QueryTexture(m_text, NULL, NULL, 0, 0);
+	m_pause_text = SDL_CreateTextureFromSurface(m_renderer, pause_surface);
+	m_end_text = SDL_CreateTextureFromSurface(m_renderer, end_surface);
+	SDL_FreeSurface(pause_surface);
+	SDL_FreeSurface(end_surface);
+	SDL_QueryTexture(m_pause_text, NULL, NULL, 0, 0);
+	SDL_QueryTexture(m_end_text, NULL, NULL, 0, 0);
 
-	int text_w = 64, text_h = 32;
-	m_text_rect = { width/2 - text_h, 0, text_w, text_h };
+	int pause_text_w = 64, pause_text_h = 32;
+	int end_text_w = 96, end_text_h = 64;
+	m_pause_text_rect = { width/2 - pause_text_w/2, 0, pause_text_w, pause_text_h };
+	m_end_text_rect =   { width/2 - end_text_w/2, height/4, end_text_w, end_text_h };
 
 	m_timer.reset();
 }
@@ -134,19 +140,6 @@ void Game::update()
 {
 	if (pause())
 		return;
-
-	if (m_display_score)
-	{
-		m_score_timer.update();
-
-		if (m_score_timer.time() >= m_score_time)
-		{
-			m_display_score = false;
-			m_world.toggleRenderScoreFlag();
-		}
-		else
-			return;
-	}
 
 	m_pacman->updatePos(m_next_dir, m_world);
 
@@ -269,6 +262,15 @@ void Game::render()
 {
 	SDL_RenderClear(m_renderer);
 
+	if (!m_running)
+	{
+		SDL_RenderCopy(m_renderer, m_end_text, NULL, &m_end_text_rect);
+		SDL_RenderPresent(m_renderer);
+		SDL_Delay(1000);
+
+		return;
+	}
+
 	m_world.render(m_renderer);
 	m_pacman->render();
 
@@ -276,16 +278,16 @@ void Game::render()
 		ghost->render();
 
 	if (pause())
-		SDL_RenderCopy(m_renderer, m_text, NULL, &m_text_rect);
+		SDL_RenderCopy(m_renderer, m_pause_text, NULL, &m_pause_text_rect);
 
 	if (m_world.canRenderScore())
 	{
 		m_world.renderScore(m_renderer);
 
-		if (!m_display_score)
-			m_score_timer.reset();
+		SDL_RenderPresent(m_renderer);
+		SDL_Delay(500);
 
-		m_display_score = true;
+		m_world.toggleRenderScoreFlag();
 	}
 
 	SDL_RenderPresent(m_renderer);
@@ -298,7 +300,8 @@ void Game::clean()
 
 	delete m_pacman;
 
-	SDL_DestroyTexture(m_text);
+	SDL_DestroyTexture(m_pause_text);
+	SDL_DestroyTexture(m_end_text);
 	SDL_DestroyWindow(m_window);
 	SDL_DestroyRenderer(m_renderer);
 
