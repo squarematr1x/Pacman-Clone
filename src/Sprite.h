@@ -39,6 +39,12 @@ public:
 		SDL_DestroyTexture(m_texture);
 	}
 
+	void setSrcRectX(int x) { m_src.x = x; }
+	void setSrcRectY(int y) { m_src.y = y; }
+
+	void incSrcRectX(int pixels) { m_src.x += pixels; }
+	void incSrcRectY(int pixels) { m_src.y += pixels; }
+
 	void update(SDL_Rect dest, Direction dir, Mode mode = Mode::REST, bool flee_ending = false);
 	void draw();
 
@@ -48,4 +54,6 @@ private:
 	SDL_Rect m_initial_src;
 	SDL_Rect m_src;
 	SDL_Rect m_dest;
+	
+	int m_frames{ 2 };
 };

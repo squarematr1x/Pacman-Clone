@@ -54,7 +54,7 @@ void Pacman::validatePos(position next_pos, World& world)
 	// int dest_x = static_cast<int>(((m_pos.x + next_pos.x) / 2) * 32); // This doesn't work when going through 'pipe' (pacman is rendered at the center)
 	// int dest_y = static_cast<int>(((m_pos.y + next_pos.y) / 2) * 32);
 
-	SDL_Rect dest = { next_x*32, next_y*32, 32, 32 };
+	SDL_Rect dest = {next_x*32, next_y*32, 32, 32 };
 	m_sprite->update(dest, m_dir);
 
 	m_pos = next_pos;
@@ -88,8 +88,23 @@ void Pacman::updateWorld(World& world, int y, int x)
 	}
 }
 
+void Pacman::setDead()
+{ 
+	m_dead = true; 
+
+	m_sprite->setSrcRectX(0);
+	m_sprite->incSrcRectY(32);
+}
+
+void Pacman::moveSprite(int pixels)
+{
+	m_sprite->incSrcRectX(pixels);
+}
+
 void Pacman::reset()
 {
 	removeLife();
 	setPos({ 11.0f, 20.0f });
+
+	m_dead = false;
 }

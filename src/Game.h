@@ -23,6 +23,7 @@ public:
 	void updateGhostMode();
 	void render();
 	void renderScore();
+	void renderDeath();
 	void clean();
 
 	void togglePause() { m_pause = !m_pause; }

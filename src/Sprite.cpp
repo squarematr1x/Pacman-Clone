@@ -38,7 +38,7 @@ void Sprite::update(SDL_Rect dest, Direction dir, Mode mode, bool flee_ending)
 	}
 
 	if (animate)
-		m_src.x += m_src.w * static_cast<int>((SDL_GetTicks() / 200) % 2);
+		m_src.x += m_src.w * static_cast<int>((SDL_GetTicks() / 200) % m_frames);
 
 	m_dest = dest; 
 }

@@ -17,12 +17,17 @@ public:
 	void validatePos(position next_pos, World& world);
 	void updateWorld(World& world, int y, int x);
 	void addToScore(int points) { m_score += points; }
+	void setDead();
+	void moveSprite(int pixels = 32);
 	void reset();
 
 	int getScore() const { return m_score; }
 	int getLives() const { return m_lives; }
+	bool isDead() const { return m_dead; }
 
 private:
 	int m_score{ 0 };
 	int m_lives{ 3 };
+
+	bool m_dead{ false };
 };

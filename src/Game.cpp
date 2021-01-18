@@ -156,8 +156,7 @@ void Game::update()
 
 	if (m_world.playerEaten())
 	{
-		m_pacman->reset();
-		m_world.resetPlayer();
+		m_pacman->setDead();
 
 		if (m_pacman->getLives() == 0)
 			m_running = false;
@@ -281,6 +280,7 @@ void Game::render()
 		SDL_RenderCopy(m_renderer, m_pause_text, NULL, &m_pause_text_rect);
 	
 	renderScore();
+	renderDeath();
 
 	SDL_RenderPresent(m_renderer);
 }
@@ -295,6 +295,23 @@ void Game::renderScore()
 		SDL_Delay(500);
 
 		m_world.toggleRenderScoreFlag();
+	}
+}
+
+void Game::renderDeath()
+{
+	if (m_pacman->isDead())
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			m_pacman->render();
+			m_pacman->moveSprite();
+			SDL_RenderPresent(m_renderer);
+			SDL_Delay(400);
+		}
+
+		m_pacman->reset();
+		m_world.resetPlayer();
 	}
 }
 
