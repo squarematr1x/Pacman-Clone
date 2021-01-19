@@ -67,7 +67,7 @@ void Game::init(const char* title, int x_pos, int y_pos, int width, int height)
 	SDL_QueryTexture(m_end_text, NULL, NULL, 0, 0);
 
 	int pause_text_w = 64, pause_text_h = 32;
-	int end_text_w = 96, end_text_h = 64;
+	int end_text_w = 256, end_text_h = 64;
 
 	m_pause_text_rect = { width/2 - pause_text_w/2, 0, pause_text_w, pause_text_h };
 	m_end_text_rect =   { width/2 - end_text_w/2, height/4, end_text_w, end_text_h };
@@ -142,7 +142,7 @@ void Game::gameInfo()
 void Game::update()
 {
 	if (m_pacman->getLives() == 0)
-		m_running = false;
+		m_game_over = true;
 
 	if (pause())
 		return;
@@ -262,8 +262,10 @@ void Game::render()
 {
 	SDL_RenderClear(m_renderer);
 
-	if (!m_running)
+	if (m_game_over)
 	{
+		m_running = false;
+
 		SDL_RenderCopy(m_renderer, m_end_text, NULL, &m_end_text_rect);
 		SDL_RenderPresent(m_renderer);
 		SDL_Delay(1000);

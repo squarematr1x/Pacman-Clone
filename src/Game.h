@@ -39,6 +39,7 @@ public:
 
 private:
 	bool m_running{ true };
+	bool m_game_over{ false };
 	bool m_pause{ false };
 	bool m_red_free{ false };
 	bool m_blue_free{ false };
