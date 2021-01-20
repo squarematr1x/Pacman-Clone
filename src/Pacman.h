@@ -15,10 +15,10 @@ public:
 
 	void updatePos(Direction dir, World& world);
 	void validatePos(position next_pos, World& world);
-	void updateWorld(World& world, int y, int x);
+	void checkCollision(World& world, int y, int x);
 	void addToScore(int points) { m_score += points; }
 	void setDead();
-	void moveSprite(int pixels = 32);
+	void strafeSprite(int pixels = 32);
 	void reset();
 
 	int getScore() const { return m_score; }

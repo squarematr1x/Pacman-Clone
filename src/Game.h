@@ -1,9 +1,5 @@
 #pragma once
 
-#include <iostream>
-#include <vector>
-#include <cmath>
-
 #include <SDL_ttf.h>
 
 #include "Timer.h"

@@ -2,8 +2,6 @@
 
 #include "TextureManager.h"
 
-#include <iostream>
-
 enum class Mode
 {
 	REST,
