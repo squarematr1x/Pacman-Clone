@@ -24,8 +24,8 @@ public:
 	void render();
 	void renderScore();
 	void renderDeath();
-	void renderGameOver();
-	void renderVictory();
+	void renderGameOverText();
+	void renderVictoryText();
 	void clean();
 
 	void togglePause() { m_pause = !m_pause; }

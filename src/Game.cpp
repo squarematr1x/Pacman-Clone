@@ -269,13 +269,13 @@ void Game::render()
 
 	if (m_game_over)
 	{
-		renderGameOver();
+		renderGameOverText();
 		return;
 	}
 
 	if (m_victory)
 	{
-		renderVictory();
+		renderVictoryText();
 		return;
 	}
 
@@ -326,7 +326,7 @@ void Game::renderDeath()
 	}
 }
 
-void Game::renderGameOver()
+void Game::renderGameOverText()
 {
 	m_running = false;
 
@@ -335,7 +335,7 @@ void Game::renderGameOver()
 	SDL_Delay(1000);
 }
 
-void Game::renderVictory()
+void Game::renderVictoryText()
 {
 	m_running = false;
 
