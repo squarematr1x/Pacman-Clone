@@ -55,22 +55,27 @@ void Game::init(const char* title, int x_pos, int y_pos, int width, int height)
 
 	SDL_Surface* pause_surface = TTF_RenderText_Solid(font, "Pause", color);
 	SDL_Surface* end_surface = TTF_RenderText_Solid(font, "Game Over", color);
+	SDL_Surface* win_surface = TTF_RenderText_Solid(font, "You won!", color);
 	TTF_CloseFont(font);
 
 	m_pause_text = SDL_CreateTextureFromSurface(m_renderer, pause_surface);
 	m_end_text = SDL_CreateTextureFromSurface(m_renderer, end_surface);
+	m_win_text = SDL_CreateTextureFromSurface(m_renderer, win_surface);
 
 	SDL_FreeSurface(pause_surface);
 	SDL_FreeSurface(end_surface);
+	SDL_FreeSurface(win_surface);
 
 	SDL_QueryTexture(m_pause_text, NULL, NULL, 0, 0);
 	SDL_QueryTexture(m_end_text, NULL, NULL, 0, 0);
+	SDL_QueryTexture(m_win_text, NULL, NULL, 0, 0);
 
 	int pause_text_w = 64, pause_text_h = 32;
 	int end_text_w = 256, end_text_h = 64;
 
 	m_pause_text_rect = { width/2 - pause_text_w/2, 0, pause_text_w, pause_text_h };
-	m_end_text_rect =   { width/2 - end_text_w/2, height/4, end_text_w, end_text_h };
+	m_end_text_rect = { width/2 - end_text_w/2, height/4, end_text_w, end_text_h };
+	m_win_text_rect = { width / 2 - end_text_w / 2, height / 4, end_text_w, end_text_h };
 
 	m_timer.reset();
 }
@@ -195,7 +200,7 @@ void Game::update()
 	}
 
 	if (m_world.getPoints() == 0)
-		m_running = false;
+		m_victory = true;
 	else if (canReleaseOrange())
 	{
 		m_orange_free = true;
@@ -264,12 +269,13 @@ void Game::render()
 
 	if (m_game_over)
 	{
-		m_running = false;
+		renderGameOver();
+		return;
+	}
 
-		SDL_RenderCopy(m_renderer, m_end_text, NULL, &m_end_text_rect);
-		SDL_RenderPresent(m_renderer);
-		SDL_Delay(1000);
-
+	if (m_victory)
+	{
+		renderVictory();
 		return;
 	}
 
@@ -305,10 +311,12 @@ void Game::renderDeath()
 {
 	if (m_pacman->isDead())
 	{
-		for (int i = 0; i < 4; i++)
+		int n_frames = 4;
+
+		for (int i = 0; i < n_frames; i++)
 		{
 			m_pacman->render();
-			m_pacman->moveSprite();
+			m_pacman->strafeSprite();
 			SDL_RenderPresent(m_renderer);
 			SDL_Delay(400);
 		}
@@ -316,6 +324,24 @@ void Game::renderDeath()
 		m_pacman->reset();
 		m_world.resetPlayer();
 	}
+}
+
+void Game::renderGameOver()
+{
+	m_running = false;
+
+	SDL_RenderCopy(m_renderer, m_end_text, NULL, &m_end_text_rect);
+	SDL_RenderPresent(m_renderer);
+	SDL_Delay(1000);
+}
+
+void Game::renderVictory()
+{
+	m_running = false;
+
+	SDL_RenderCopy(m_renderer, m_win_text, NULL, &m_win_text_rect);
+	SDL_RenderPresent(m_renderer);
+	SDL_Delay(1000);
 }
 
 void Game::clean()
@@ -327,7 +353,10 @@ void Game::clean()
 
 	SDL_DestroyTexture(m_pause_text);
 	SDL_DestroyTexture(m_end_text);
+	SDL_DestroyTexture(m_win_text);
+
 	SDL_DestroyWindow(m_window);
+
 	SDL_DestroyRenderer(m_renderer);
 
 	TTF_Quit();

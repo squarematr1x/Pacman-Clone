@@ -24,6 +24,8 @@ public:
 	void render();
 	void renderScore();
 	void renderDeath();
+	void renderGameOver();
+	void renderVictory();
 	void clean();
 
 	void togglePause() { m_pause = !m_pause; }
@@ -40,6 +42,7 @@ public:
 private:
 	bool m_running{ true };
 	bool m_game_over{ false };
+	bool m_victory{ false };
 	bool m_pause{ false };
 	bool m_red_free{ false };
 	bool m_blue_free{ false };
@@ -60,9 +63,12 @@ private:
 	std::vector<Ghost*> m_ghosts;
 
 	SDL_Texture* m_pause_text;
-	SDL_Rect m_pause_text_rect;
 	SDL_Texture* m_end_text;
+	SDL_Texture* m_win_text;
+
+	SDL_Rect m_pause_text_rect;
 	SDL_Rect m_end_text_rect;
+	SDL_Rect m_win_text_rect;
 
 	Timer m_timer;
 	Timer m_flee_timer;
