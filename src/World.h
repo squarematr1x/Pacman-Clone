@@ -102,7 +102,7 @@ public:
 private:
     SDL_Rect m_src{ 0, 0, tile_len, tile_len };
     SDL_Rect m_dest{ 0, 0, tile_len, tile_len };
-    SDL_Rect area_rect{ 0, 0, 736, 896 };
+    SDL_Rect area_rect{ 0, 0, tile_len * map_w, tile_len * map_h };
 
     SDL_Texture* m_area_tex{ nullptr };
     SDL_Texture* m_point_tex{ nullptr };
