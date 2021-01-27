@@ -82,8 +82,6 @@ void Game::init(const char* title, int x_pos, int y_pos, int width, int height)
 
 void Game::handleInput()
 {
-	m_next_dir;
-
 	SDL_Event event;
 	SDL_PollEvent(&event);
 
@@ -106,7 +104,7 @@ void Game::handleInput()
 				} 
 				break;
 				case SDLK_LEFT:   
-					m_next_dir = Direction::LEFT;  
+					m_next_dir = Direction::LEFT;
 					break;
 				case SDLK_RIGHT:  
 					m_next_dir = Direction::RIGHT; 
@@ -141,7 +139,7 @@ void Game::gameInfo()
 	std::cout << "Org vul: " << m_world.orangeVulnerable() << '\n';
 
 	std::cout << "\nPac hp: " << m_pacman->getLives() << '\n';
-	std::cout << "Pac score: " << m_pacman->getScore() << '\n'; // FIXME: Score is bugging...
+	std::cout << "Pac score: " << m_pacman->getScore() << '\n';
 	std::cout << "#points left: " << m_world.getPoints() << '\n';
 }
 
@@ -158,10 +156,7 @@ void Game::update()
 	for (auto ghost : m_ghosts)
 	{
 		if (m_world.eaten(ghost->getColor()))
-		{
 			ghost->changeMode(Mode::EATEN);
-			m_pacman->addToScore(200); // FIXME: Score is bugging...
-		}
 
 		ghost->update(m_pacman->getPos(), m_ghosts[RED]->getPos(), m_pacman->getDir(), m_world);
 	}
