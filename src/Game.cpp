@@ -282,8 +282,11 @@ void Game::render()
 	m_world.render(m_renderer);
 	m_pacman->render();
 
-	for (auto ghost : m_ghosts)
-		ghost->render();
+	if (!m_pacman->isDead())
+	{
+		for (auto ghost : m_ghosts)
+			ghost->render();
+	}
 
 	if (pause())
 		SDL_RenderCopy(m_renderer, m_pause_text, NULL, &m_pause_text_rect);
