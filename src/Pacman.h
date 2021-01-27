@@ -14,7 +14,9 @@ public:
 	void removeLife() { m_lives--; }
 
 	void updatePos(Direction dir, World& world);
-	void validatePos(position next_pos, World& world);
+	void updateDir(Direction dir, World& world);
+	void move(position& next_pos);
+	void confirmPos(position next_pos, World& world);
 	void checkCollision(World& world, int y, int x);
 	void addToScore(int points) { m_score += points; }
 	void setDead();
