@@ -155,7 +155,7 @@ void Ghost::update(position pacman_pos, position red_pos, Direction pacman_dir, 
 
 	updatePos(x, y, m_dir, world);
 
-	SDL_Rect sprite_dest = { 32 * x, 32 * y, 32, 32 };
+	SDL_Rect sprite_dest = { tile_len * x, tile_len * y, tile_len, tile_len };
 	m_sprite->update(sprite_dest, m_dir, m_mode, m_flee_ending);
 }
 

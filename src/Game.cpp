@@ -36,7 +36,7 @@ void Game::init(const char* title, int x_pos, int y_pos, int width, int height)
 	m_pacman = new Pacman(new Sprite("Sprites/sprite_sheet.png", m_renderer));
 
 	int x = 0, y = 0;
-	int w = 32, h = 32;
+	int w = tile_len, h = tile_len;
 
 	m_ghosts.push_back(new Red(new Sprite("Sprites/sprite_sheet.png", m_renderer, {x, y, w, h}, { 12*w, 13*w, w, h })));
 	m_ghosts.push_back(new Pink(new Sprite("Sprites/sprite_sheet.png", m_renderer, { x, w, w, h }, { 10*w, 13*w, w, h })));
@@ -75,7 +75,7 @@ void Game::init(const char* title, int x_pos, int y_pos, int width, int height)
 
 	m_pause_text_rect = { width/2 - pause_text_w/2, 0, pause_text_w, pause_text_h };
 	m_end_text_rect = { width/2 - end_text_w/2, height/4, end_text_w, end_text_h };
-	m_win_text_rect = { width / 2 - end_text_w / 2, height / 4, end_text_w, end_text_h };
+	m_win_text_rect = { width/2 - end_text_w/2, height/4, end_text_w, end_text_h };
 
 	m_timer.reset();
 }
@@ -141,6 +141,7 @@ void Game::gameInfo()
 	std::cout << "\nPac hp: " << m_pacman->getLives() << '\n';
 	std::cout << "Pac score: " << m_pacman->getScore() << '\n';
 	std::cout << "#points left: " << m_world.getPoints() << '\n';
+	m_pacman->tellPos();
 }
 
 void Game::update()

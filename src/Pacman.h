@@ -20,12 +20,14 @@ public:
 	void checkCollision(World& world, int y, int x);
 	void addToScore(int points) { m_score += points; }
 	void setDead();
-	void strafeSprite(int pixels = 32);
+	void strafeSprite(int pixels = tile_len);
 	void reset();
 
 	int getScore() const { return m_score; }
 	int getLives() const { return m_lives; }
 	bool isDead() const { return m_dead; }
+
+	void tellPos() { std::cout << m_pos.y << "," << m_pos.y << "\n"; }
 
 private:
 	int m_score{ 0 };

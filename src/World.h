@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 
+#include "Constants.h"
 #include "TextureManager.h"
 
 struct position
@@ -99,8 +100,8 @@ public:
     void printMap();
 
 private:
-    SDL_Rect m_src{ 0, 0, 32, 32 };
-    SDL_Rect m_dest{ 0, 0, 32, 32 };
+    SDL_Rect m_src{ 0, 0, tile_len, tile_len };
+    SDL_Rect m_dest{ 0, 0, tile_len, tile_len };
     SDL_Rect area_rect{ 0, 0, 736, 896 };
 
     SDL_Texture* m_area_tex{ nullptr };
@@ -131,7 +132,7 @@ private:
     bool m_render_score{ false };
 
     // Change this to 1D and std::array?
-    char m_map[28][23] = {
+    char m_map[map_h][map_w] = {
         {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
         {'#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
         {'#','*','*','*','*','*','*','*','*','*','*','#','*','*','*','*','*','*','*','*','*','*','#'},

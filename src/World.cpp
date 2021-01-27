@@ -47,14 +47,14 @@ void World::render(SDL_Renderer* renderer)
 {
 	draw(m_area_tex, renderer, area_rect, area_rect);
 
-	for (int i = 0; i < 28; i++)
+	for (int i = 0; i < map_h; i++)
 	{
-		for (int j = 0; j < 23; j++)
+		for (int j = 0; j < map_w; j++)
 		{
 			char tile = m_map[i][j];
 
-			m_dest.x = j * 32;
-			m_dest.y = i * 32;
+			m_dest.x = j * tile_len;
+			m_dest.y = i * tile_len;
 
 			if (tile == '*')
 				draw(m_point_tex, renderer, m_src, m_dest);
@@ -68,7 +68,7 @@ void World::render(SDL_Renderer* renderer)
 
 void World::renderScore(SDL_Renderer* renderer)
 {
-	SDL_Rect dest{ m_score_pos.x * 32, m_score_pos.y * 32, 32, 32 };
+	SDL_Rect dest{ m_score_pos.x * tile_len, m_score_pos.y * tile_len, tile_len, tile_len };
 	draw(m_score_tex, renderer, m_src, dest);
 }
 
@@ -217,9 +217,9 @@ bool World::isWall(position pos, bool fence_on)
 
 void World::calculatePoints()
 {
-	for (int i = 0; i < 28; i++)
+	for (int i = 0; i < map_h; i++)
 	{
-		for (int j = 0; j < 23; j++)
+		for (int j = 0; j < map_w; j++)
 		{
 			if (m_map[i][j] == '*')
 				m_points++;
@@ -231,9 +231,9 @@ void World::calculatePoints()
 
 void World::printMap()
 {
-	for (int i = 0; i < 28; i++)
+	for (int i = 0; i < map_h; i++)
 	{
-		for (int j = 0; j < 23; j++)
+		for (int j = 0; j < map_w; j++)
 			std::cout << m_map[i][j];
 
 		std::cout << '\n';

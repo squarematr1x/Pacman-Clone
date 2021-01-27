@@ -4,8 +4,8 @@ int main(int argc, char** argv)
 {
     const int fps = 30;
     const int frame_delay = 1000 / fps;
-    const int screen_width = 736;
-    const int screen_height = 896;
+    const int screen_width = tile_len * map_w;
+    const int screen_height = tile_len * map_h;
 
     Uint32 frame_start;
     int frame_time;

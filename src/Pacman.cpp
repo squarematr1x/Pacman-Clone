@@ -80,10 +80,10 @@ void Pacman::confirmPos(position next_pos, World& world)
 
 	world.updatePlayerPos(y, x, next_y, next_x);
 
-	// int dest_x = static_cast<int>((m_pos.x + 0.5f*(next_pos.x - m_pos.x))*32); // This doesn't work when going through 'pipe' (pacman is rendered at the center)
-	// int dest_y = static_cast<int>((m_pos.y + 0.5f*(next_pos.y - m_pos.y))*32);
+	int dest_x = static_cast<int>((m_pos.x + 0.5f*(next_pos.x - m_pos.x))*32); // This doesn't work when going through 'pipe' (pacman is rendered at the center)
+	int dest_y = static_cast<int>((m_pos.y + 0.5f*(next_pos.y - m_pos.y))*32);
 
-	SDL_Rect dest = { next_x*32, next_y*32, 32, 32 };
+	SDL_Rect dest = { dest_x, dest_y, tile_len, tile_len };
 	m_sprite->update(dest, m_dir);
 
 	m_pos = next_pos;
@@ -122,7 +122,7 @@ void Pacman::setDead()
 	m_dead = true; 
 
 	m_sprite->setSrcRectX(0);
-	m_sprite->incSrcRectY(32);
+	m_sprite->incSrcRectY(tile_len);
 }
 
 void Pacman::strafeSprite(int pixels)
