@@ -1,12 +1,71 @@
 #include "Pacman.h"
 
+int lerp(float current_pos, float next_pos)
+{
+	float k = 0.5f;
+
+	return static_cast<int>((current_pos + k * (next_pos - current_pos)) * tile_len);
+}
+
 void Pacman::updatePos(Direction dir, World& world)
 {
+	updateDir(dir, world);
+
 	position next_pos = m_pos;
 
-	updateDir(dir, world);
-	move(next_pos);
+	if (!m_against_wall)
+		move(next_pos);
+
 	confirmPos(next_pos, world);
+}
+
+void Pacman::updateDir(Direction dir, World& world)
+{
+	m_against_wall = false;
+
+	switch (dir)
+	{
+	case Direction::UP:
+		if (!world.isWall(static_cast<int>(std::round(m_pos.y)) - 1, static_cast<int>(std::round(m_pos.x))))
+			m_dir = dir;
+		else
+		{
+			m_against_wall = true;
+		}
+		break;
+	case Direction::DOWN:
+		if (!world.isWall(static_cast<int>(std::round(m_pos.y)) + 1, static_cast<int>(std::round(m_pos.x))))
+			m_dir = dir;
+		else
+		{
+			m_against_wall = true;
+		}
+		break;
+	case Direction::LEFT:
+		if (!world.isWall(static_cast<int>(std::round(m_pos.y)), static_cast<int>(std::round(m_pos.x)) - 1))
+			m_dir = dir;
+		else
+		{
+			m_against_wall = true;
+		}
+		break;
+	case Direction::RIGHT:
+		if (!world.isWall(static_cast<int>(std::round(m_pos.y)), static_cast<int>(std::round(m_pos.x)) + 1))
+			m_dir = dir;
+		else
+		{
+			m_against_wall = true;
+		}
+		break;
+	default:
+		break;
+	}
+
+	if (m_against_wall)
+	{
+		m_pos.x = std::round(m_pos.x);
+		m_pos.y = std::round(m_pos.y);
+	}
 }
 
 void Pacman::move(position& next_pos)
@@ -40,48 +99,32 @@ void Pacman::move(position& next_pos)
 	}
 }
 
-void Pacman::updateDir(Direction dir, World& world)
-{
-	switch (dir)
-	{
-	case Direction::UP:
-		if (!world.isWall(static_cast<int>(std::round(m_pos.y)) - 1, static_cast<int>(std::round(m_pos.x))))
-			m_dir = dir;
-		break;
-	case Direction::DOWN:
-		if (!world.isWall(static_cast<int>(std::round(m_pos.y)) + 1, static_cast<int>(std::round(m_pos.x))))
-			m_dir = dir;
-		break;
-	case Direction::LEFT:
-		if (!world.isWall(static_cast<int>(std::round(m_pos.y)), static_cast<int>(std::round(m_pos.x)) - 1))
-			m_dir = dir;
-		break;
-	case Direction::RIGHT:
-		if (!world.isWall(static_cast<int>(std::round(m_pos.y)), static_cast<int>(std::round(m_pos.x)) + 1))
-			m_dir = dir;
-		break;
-	default:
-		break;
-	}
-}
-
 void Pacman::confirmPos(position next_pos, World& world)
 {
 	int next_x = static_cast<int>(std::round(next_pos.x));
 	int next_y = static_cast<int>(std::round(next_pos.y));
 
+	int x = static_cast<int>(std::round(m_pos.x));
+	int y = static_cast<int>(std::round(m_pos.y));
+
 	if (world.isWall(next_y, next_x))
 		return;
 
 	checkCollision(world, next_y, next_x);
-
-	int x = static_cast<int>(std::round(m_pos.x));
-	int y = static_cast<int>(std::round(m_pos.y));
-
 	world.updatePlayerPos(y, x, next_y, next_x);
 
-	int dest_x = static_cast<int>((m_pos.x + 0.5f*(next_pos.x - m_pos.x))*32); // This doesn't work when going through 'pipe' (pacman is rendered at the center)
-	int dest_y = static_cast<int>((m_pos.y + 0.5f*(next_pos.y - m_pos.y))*32);
+	int dest_x = lerp(m_pos.x, next_pos.x);
+	int dest_y = lerp(m_pos.y, next_pos.y);
+
+	if (atRightmostPos() || atLeftmostPos())
+	{
+		dest_x = x * tile_len;
+		dest_y = y * tile_len;
+	}
+	else if (m_dir == Direction::LEFT || m_dir == Direction::RIGHT)
+		dest_y = y*tile_len;
+	else if (m_dir == Direction::UP || m_dir == Direction::DOWN)
+		dest_x = x*tile_len;
 
 	SDL_Rect dest = { dest_x, dest_y, tile_len, tile_len };
 	m_sprite->update(dest, m_dir);
