@@ -12,12 +12,12 @@ float GameObject::getDistance(position src, position dest)
 
 bool GameObject::atLeftmostPos()
 {
-	return (m_pos.x < 1 && m_pos.y > 12 && m_pos.y < 14);
+	return (m_pos.x <= 0 && m_pos.y > 12 && m_pos.y < 14);
 }
 
 bool GameObject::atRightmostPos()
 {
-	return (m_pos.x > 22 && m_pos.y > 12 && m_pos.y < 14);
+	return (m_pos.x >= 22 && m_pos.y > 12 && m_pos.y < 14);
 }
 
 void Ghost::changeMode(Mode mode)
@@ -28,7 +28,7 @@ void Ghost::changeMode(Mode mode)
 			m_flee_ending = false;
 			break;
 		case Mode::EATEN:
-			setSpeed(0.25f);
+			setSpeed(0.275f);
 			break;
 		case Mode::SCATTER:
 		case Mode::CHASE:
