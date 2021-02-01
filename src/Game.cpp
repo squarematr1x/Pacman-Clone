@@ -136,12 +136,11 @@ void Game::gameInfo()
 	std::cout << "Red vul: " << m_world.redVulnerable() << '\n';
 	std::cout << "Pnk vul: " << m_world.pinkVulnerable() << '\n';
 	std::cout << "Blu vul: " << m_world.blueVulnerable() << '\n';
-	std::cout << "Org vul: " << m_world.orangeVulnerable() << '\n';
+	std::cout << "Org vul: " << m_world.orangeVulnerable() << '\n\n';
 
-	std::cout << "\nPac hp: " << m_pacman->getLives() << '\n';
+	std::cout << "Pac hp: " << m_pacman->getLives() << '\n';
 	std::cout << "Pac score: " << m_pacman->getScore() << '\n';
-	std::cout << "#points left: " << m_world.getPoints() << '\n';
-	m_pacman->tellPos();
+	std::cout << "Points left: " << m_world.getPoints() << '\n';
 }
 
 void Game::update()
