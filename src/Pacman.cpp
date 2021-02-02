@@ -9,54 +9,42 @@ int lerp(float current_pos, float next_pos)
 
 void Pacman::updatePos(Direction dir, World& world)
 {
-	updateDir(dir, world);
-
+	Direction prev_dir = m_dir;
 	position next_pos = m_pos;
 
-	if (!m_against_wall || m_dir != dir)
-		move(next_pos);
+	updateDir(dir, next_pos, world);
 
+	if (m_dir != prev_dir)
+		m_changed_dir = true;
+	else
+		m_changed_dir = false;
+
+	move(next_pos);
 	confirmPos(next_pos, world);
 }
 
-void Pacman::updateDir(Direction dir, World& world)
+void Pacman::updateDir(Direction dir, position& next_pos, World& world)
 {
-	m_against_wall = false;
-
 	switch (dir)
 	{
 	case Direction::UP:
 		if (!world.isWall(static_cast<int>(std::round(m_pos.y)) - 1, static_cast<int>(std::round(m_pos.x))))
 			m_dir = dir;
-		else
-			m_against_wall = true;
 		break;
 	case Direction::DOWN:
 		if (!world.isWall(static_cast<int>(std::round(m_pos.y)) + 1, static_cast<int>(std::round(m_pos.x))))
 			m_dir = dir;
-		else
-			m_against_wall = true;
 		break;
 	case Direction::LEFT:
 		if (!world.isWall(static_cast<int>(std::round(m_pos.y)), static_cast<int>(std::round(m_pos.x)) - 1))
 			m_dir = dir;
-		else
-			m_against_wall = true;
 		break;
 	case Direction::RIGHT:
 		if (!world.isWall(static_cast<int>(std::round(m_pos.y)), static_cast<int>(std::round(m_pos.x)) + 1))
 			m_dir = dir;
-		else
-			m_against_wall = true;
 		break;
 	default:
 		break;
-	}
-
-	if (m_against_wall && m_dir == dir)
-	{
-		m_pos.x = std::round(m_pos.x);
-		m_pos.y = std::round(m_pos.y);
 	}
 }
 
@@ -96,27 +84,36 @@ void Pacman::confirmPos(position next_pos, World& world)
 	int next_x = static_cast<int>(std::round(next_pos.x));
 	int next_y = static_cast<int>(std::round(next_pos.y));
 
+	if (world.isWall(next_y, next_x))
+	{
+		// std::cout << "Against wall\n";
+		m_pos.x = std::round(m_pos.x);
+		m_pos.y = std::round(m_pos.y);
+
+		return;
+	}
+
 	int x = static_cast<int>(std::round(m_pos.x));
 	int y = static_cast<int>(std::round(m_pos.y));
 
-	if (world.isWall(next_y, next_x))
-		return;
-
 	checkCollision(world, next_y, next_x);
 	world.updatePlayerPos(y, x, next_y, next_x);
-
-	int dest_x = lerp(m_pos.x, next_pos.x);
-	int dest_y = lerp(m_pos.y, next_pos.y);
+	
+	int dest_x = x * tile_len;
+	int dest_y = y * tile_len;
 
 	if (atRightmostPos() || atLeftmostPos())
 	{
 		dest_x = x * tile_len;
 		dest_y = y * tile_len;
 	}
-	else if (m_dir == Direction::LEFT || m_dir == Direction::RIGHT)
-		dest_y = y*tile_len;
-	else if (m_dir == Direction::UP || m_dir == Direction::DOWN)
-		dest_x = x*tile_len;
+	else if (!m_changed_dir && !m_against_wall)
+	{
+		if (m_dir == Direction::UP || m_dir == Direction::DOWN)
+			dest_y = lerp(m_pos.y, next_pos.y);
+		else if (m_dir == Direction::LEFT || m_dir == Direction::RIGHT)
+			dest_x = lerp(m_pos.x, next_pos.x);
+	}
 
 	SDL_Rect dest = { dest_x, dest_y, tile_len, tile_len };
 	m_sprite->update(dest, m_dir);
