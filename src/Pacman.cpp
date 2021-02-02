@@ -107,14 +107,20 @@ void Pacman::confirmPos(position next_pos, World& world)
 		dest_x = x * tile_len;
 		dest_y = y * tile_len;
 	}
-	else if (!m_changed_dir && !m_against_wall)
+	else if (!m_changed_dir)
 	{
 		if (movingVertically())
+		{
+			next_pos.x = std::round(next_pos.x);
 			dest_y = lerp(m_pos.y, next_pos.y);
+		}
 		else if (movingHorizontally())
+		{
+			next_pos.y = std::round(next_pos.y);
 			dest_x = lerp(m_pos.x, next_pos.x);
+		}
 	}
-
+	
 	SDL_Rect dest = { dest_x, dest_y, tile_len, tile_len };
 	m_sprite->update(dest, m_dir);
 
