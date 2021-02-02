@@ -26,6 +26,8 @@ public:
 	int getScore() const { return m_score; }
 	int getLives() const { return m_lives; }
 	bool isDead() const { return m_dead; }
+	bool movingVertically();
+	bool movingHorizontally();
 
 	friend int lerp(float current_pos, float next_pos);
 

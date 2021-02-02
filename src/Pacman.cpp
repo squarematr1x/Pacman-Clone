@@ -109,9 +109,9 @@ void Pacman::confirmPos(position next_pos, World& world)
 	}
 	else if (!m_changed_dir && !m_against_wall)
 	{
-		if (m_dir == Direction::UP || m_dir == Direction::DOWN)
+		if (movingVertically())
 			dest_y = lerp(m_pos.y, next_pos.y);
-		else if (m_dir == Direction::LEFT || m_dir == Direction::RIGHT)
+		else if (movingHorizontally())
 			dest_x = lerp(m_pos.x, next_pos.x);
 	}
 
@@ -168,4 +168,20 @@ void Pacman::reset()
 	setPos({ 11.0f, 20.0f });
 
 	m_dead = false;
+}
+
+bool Pacman::movingVertically()
+{
+	if (m_dir == Direction::UP || m_dir == Direction::DOWN)
+		return true;
+
+	return false;
+}
+
+bool Pacman::movingHorizontally()
+{
+	if (m_dir == Direction::LEFT || m_dir == Direction::RIGHT)
+		return true;
+
+	return false;
 }
