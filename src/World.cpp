@@ -30,7 +30,6 @@ World::~World()
 	SDL_DestroyTexture(m_area_tex);
 	SDL_DestroyTexture(m_point_tex);
 	SDL_DestroyTexture(m_big_point_tex);
-	SDL_DestroyTexture(m_score_tex);
 	SDL_DestroyTexture(m_berry_tex);
 }
 
@@ -39,7 +38,6 @@ void World::loadDetails(SDL_Renderer* renderer)
 	m_area_tex = loadTexture("Sprites/area.png", renderer);
 	m_point_tex = loadTexture("Sprites/point.png", renderer);
 	m_big_point_tex = loadTexture("Sprites/big_point.png", renderer);
-	m_score_tex = loadTexture("Sprites/score.png", renderer);
 	m_berry_tex = loadTexture("Sprites/berry.png", renderer);
 }
 

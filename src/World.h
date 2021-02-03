@@ -106,7 +106,6 @@ private:
     SDL_Texture* m_area_tex{ nullptr };
     SDL_Texture* m_point_tex{ nullptr };
     SDL_Texture* m_big_point_tex{ nullptr };
-    SDL_Texture* m_score_tex{ nullptr };
     SDL_Texture* m_berry_tex{ nullptr };
 
     int m_big_points{ 0 };
