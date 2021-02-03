@@ -154,6 +154,9 @@ void Pacman::checkCollision(World& world, int y, int x)
 			world.toggleBigPointEatenFlag();
 			m_score += 20;
 			break;
+		case '$':
+			m_score += 100;
+			break;
 		case 'R':
 			world.resolveCollision(y, x, RED);
 			break;
