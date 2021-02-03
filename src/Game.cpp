@@ -1,4 +1,5 @@
 #include "Game.h"
+#include <memory>
 
 Game::Game(const char* title, int x_pos, int y_pos, int width, int height)
 {
@@ -33,15 +34,18 @@ void Game::init(const char* title, int x_pos, int y_pos, int width, int height)
 
 	m_world.loadDetails(m_renderer);
 
-	m_pacman = new Pacman(new Sprite("Sprites/sprite_sheet.png", m_renderer));
+	m_sprite_sheet = loadTexture("Sprites/sprite_sheet.png", m_renderer);
+	m_pacman = new Pacman(new Sprite(m_sprite_sheet, m_renderer));
 
 	int x = 0, y = 0;
 	int w = tile_len, h = tile_len;
 
-	m_ghosts.push_back(new Red(new Sprite("Sprites/sprite_sheet.png", m_renderer, {x, y, w, h}, { 12*w, 13*w, w, h })));
-	m_ghosts.push_back(new Pink(new Sprite("Sprites/sprite_sheet.png", m_renderer, { x, w, w, h }, { 10*w, 13*w, w, h })));
-	m_ghosts.push_back(new Blue(new Sprite("Sprites/sprite_sheet.png", m_renderer, { x, 2*w, w, h }, { 9*w, 13*w, w, h })));
-	m_ghosts.push_back(new Orange(new Sprite("Sprites/sprite_sheet.png", m_renderer, { x, 3*w, w, h }, { 13*w, 13*w, w, h })));
+	m_pacman = new Pacman(new Sprite(m_sprite_sheet, m_renderer));
+
+	m_ghosts.push_back(new Red(new Sprite(m_sprite_sheet, m_renderer, {x, y, w, h}, { 12*w, 13*w, w, h })));
+	m_ghosts.push_back(new Pink(new Sprite(m_sprite_sheet, m_renderer, { x, w, w, h }, { 10*w, 13*w, w, h })));
+	m_ghosts.push_back(new Blue(new Sprite(m_sprite_sheet, m_renderer, { x, 2*w, w, h }, { 9*w, 13*w, w, h })));
+	m_ghosts.push_back(new Orange(new Sprite(m_sprite_sheet, m_renderer, { x, 3*w, w, h }, { 13*w, 13*w, w, h })));
 
 	TTF_Init();
 	SDL_Color color = { 255, 255, 255 };
@@ -350,6 +354,7 @@ void Game::clean()
 
 	delete m_pacman;
 
+	SDL_DestroyTexture(m_sprite_sheet);
 	SDL_DestroyTexture(m_pause_text);
 	SDL_DestroyTexture(m_end_text);
 	SDL_DestroyTexture(m_win_text);

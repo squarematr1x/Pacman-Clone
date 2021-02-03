@@ -58,6 +58,7 @@ private:
 	Pacman* m_pacman{ nullptr };
 	std::vector<Ghost*> m_ghosts;
 
+	SDL_Texture* m_sprite_sheet;
 	SDL_Texture* m_pause_text;
 	SDL_Texture* m_end_text;
 	SDL_Texture* m_win_text;
