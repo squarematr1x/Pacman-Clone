@@ -25,27 +25,44 @@ void Pacman::updatePos(Direction dir, World& world)
 
 void Pacman::updateDir(Direction dir, position& next_pos, World& world)
 {
+	bool wall_ahead = false;
+
 	switch (dir)
 	{
 	case Direction::UP:
 		if (!world.isWall(static_cast<int>(std::round(m_pos.y)) - 1, static_cast<int>(std::round(m_pos.x))))
 			m_dir = dir;
+		else
+			wall_ahead = true;
 		break;
 	case Direction::DOWN:
 		if (!world.isWall(static_cast<int>(std::round(m_pos.y)) + 1, static_cast<int>(std::round(m_pos.x))))
 			m_dir = dir;
+		else
+			wall_ahead = true;
 		break;
 	case Direction::LEFT:
 		if (!world.isWall(static_cast<int>(std::round(m_pos.y)), static_cast<int>(std::round(m_pos.x)) - 1))
 			m_dir = dir;
+		else
+			wall_ahead = true;
 		break;
 	case Direction::RIGHT:
 		if (!world.isWall(static_cast<int>(std::round(m_pos.y)), static_cast<int>(std::round(m_pos.x)) + 1))
 			m_dir = dir;
+		else
+			wall_ahead = true;
 		break;
 	default:
 		break;
 	}
+
+	if (wall_ahead && m_dir == dir)
+		m_against_wall = true;
+	else if (m_against_wall && m_dir != dir)
+		m_against_wall = true;
+	else
+		m_against_wall = false;
 }
 
 void Pacman::move(position& next_pos)
@@ -86,7 +103,6 @@ void Pacman::confirmPos(position next_pos, World& world)
 
 	if (world.isWall(next_y, next_x))
 	{
-		// std::cout << "Against wall\n";
 		m_pos.x = std::round(m_pos.x);
 		m_pos.y = std::round(m_pos.y);
 
@@ -107,7 +123,7 @@ void Pacman::confirmPos(position next_pos, World& world)
 		dest_x = x * tile_len;
 		dest_y = y * tile_len;
 	}
-	else if (!m_changed_dir)
+	else if (!m_changed_dir && !m_against_wall)
 	{
 		if (movingVertically())
 		{
