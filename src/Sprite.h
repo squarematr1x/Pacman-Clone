@@ -28,13 +28,24 @@ public:
 		  m_renderer(renderer),
 		  m_initial_src(src),
 		  m_src(src),
+		  m_dest(dest),
+		  m_shared_text(false)
+	{
+	}
+
+	Sprite(SDL_Texture* sprite_sheet, SDL_Renderer* renderer, SDL_Rect src = { 0, 192, 32, 32 }, SDL_Rect dest = { 11 * 32, 20 * 32, 32, 32 })
+		: m_texture(sprite_sheet),
+		  m_renderer(renderer),
+		  m_initial_src(src),
+		  m_src(src),
 		  m_dest(dest)
 	{
 	}
 
 	~Sprite()
 	{
-		SDL_DestroyTexture(m_texture);
+		if (!m_shared_text)
+			SDL_DestroyTexture(m_texture);
 	}
 
 	void setSrcRectX(int x) { m_src.x = x; }
@@ -54,4 +65,5 @@ private:
 	SDL_Rect m_dest;
 	
 	int m_frames{ 2 };
+	bool m_shared_text{ true };
 };
