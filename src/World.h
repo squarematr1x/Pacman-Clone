@@ -38,7 +38,6 @@ public:
 
     void loadDetails(SDL_Renderer* renderer);
     void render(SDL_Renderer* renderer);
-    void renderScore(SDL_Renderer* renderer);
 
     void setScorePos(int x, int y) { m_score_pos.x = x; m_score_pos.y = y; }
 

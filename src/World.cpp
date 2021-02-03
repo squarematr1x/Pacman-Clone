@@ -66,12 +66,6 @@ void World::render(SDL_Renderer* renderer)
 	}
 }
 
-void World::renderScore(SDL_Renderer* renderer)
-{
-	SDL_Rect dest{ m_score_pos.x * tile_len, m_score_pos.y * tile_len, tile_len, tile_len };
-	draw(m_score_tex, renderer, m_src, dest);
-}
-
 void World::resetPlayer()
 {
 	togglePlayerEatenFlag();
