@@ -182,6 +182,12 @@ void Pacman::setDead()
 	m_sprite->incSrcRectY(tile_len);
 }
 
+void Pacman::adjustSpriteToScore()
+{
+	m_sprite->setSrcRectX(0);
+	m_sprite->incSrcRectY(tile_len * 2);
+}
+
 void Pacman::strafeSprite(int pixels)
 {
 	m_sprite->incSrcRectX(pixels);

@@ -278,7 +278,7 @@ void Game::render()
 	m_world.render(m_renderer);
 	m_pacman->render();
 
-	if (!m_pacman->isDead())
+	if (!m_pacman->isDead() && !m_world.canRenderScore())
 	{
 		for (auto ghost : m_ghosts)
 			ghost->render();
@@ -297,10 +297,10 @@ void Game::renderScore()
 {
 	if (m_world.canRenderScore())
 	{
-		m_world.renderScore(m_renderer);
-
+		m_pacman->adjustSpriteToScore();
+		m_pacman->render();
 		SDL_RenderPresent(m_renderer);
-		SDL_Delay(500);
+		SDL_Delay(400);
 
 		m_world.toggleRenderScoreFlag();
 	}

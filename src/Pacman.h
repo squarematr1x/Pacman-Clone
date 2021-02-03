@@ -20,6 +20,7 @@ public:
 	void checkCollision(World& world, int y, int x);
 	void addToScore(int points) { m_score += points; }
 	void setDead();
+	void adjustSpriteToScore();
 	void strafeSprite(int pixels = tile_len);
 	void reset();
 
