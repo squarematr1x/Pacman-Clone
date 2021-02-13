@@ -215,7 +215,6 @@ void Ghost::updateMapPos(World& world)
 			if (m_mode != Mode::EATEN)
 			{
 				setToEaten(world);
-				world.setScorePos(new_x, new_y);
 				world.toggleRenderScoreFlag();
 			}
 		}

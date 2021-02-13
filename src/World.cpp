@@ -96,7 +96,6 @@ void World::resolveCollision(int y, int x, color ghost_color)
 	{
 		toggleVulnerableFlag(ghost_color);
 		toggleEatenFlag(ghost_color);
-		setScorePos(x, y);
 		toggleRenderScoreFlag();
 	}
 	else if (!eaten(ghost_color))
