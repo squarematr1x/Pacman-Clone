@@ -35,13 +35,10 @@ void Game::init(const char* title, int x_pos, int y_pos, int width, int height)
 
 	m_sprite_sheet = loadTexture("Sprites/sprite_sheet.png", m_renderer);
 
-	int x = 0, y = 0;
-	int w = tile_len, h = tile_len;
-
-	m_ghosts.push_back(new Red(new Sprite(m_sprite_sheet, m_renderer, {x, y, w, h}, { 12*w, 13*w, w, h })));
-	m_ghosts.push_back(new Pink(new Sprite(m_sprite_sheet, m_renderer, { x, w, w, h }, { 10*w, 13*w, w, h })));
-	m_ghosts.push_back(new Blue(new Sprite(m_sprite_sheet, m_renderer, { x, 2*w, w, h }, { 9*w, 13*w, w, h })));
-	m_ghosts.push_back(new Orange(new Sprite(m_sprite_sheet, m_renderer, { x, 3*w, w, h }, { 13*w, 13*w, w, h })));
+	m_ghosts.push_back(new Red(new Sprite(m_sprite_sheet, m_renderer, {0, 0, tile_len, tile_len}, { 12*tile_len, 13*tile_len, tile_len, tile_len })));
+	m_ghosts.push_back(new Pink(new Sprite(m_sprite_sheet, m_renderer, { 0, tile_len, tile_len,tile_len }, { 10*tile_len, 13*tile_len, tile_len, tile_len })));
+	m_ghosts.push_back(new Blue(new Sprite(m_sprite_sheet, m_renderer, { 0, 2*tile_len, tile_len, tile_len }, { 9*tile_len, 13*tile_len, tile_len, tile_len })));
+	m_ghosts.push_back(new Orange(new Sprite(m_sprite_sheet, m_renderer, { 0, 3*tile_len, tile_len, tile_len }, { 13*tile_len, 13*tile_len, tile_len, tile_len })));
 
 	m_pacman = new Pacman(new Sprite(m_sprite_sheet, m_renderer));
 
@@ -72,8 +69,8 @@ void Game::init(const char* title, int x_pos, int y_pos, int width, int height)
 	SDL_QueryTexture(m_end_text, NULL, NULL, 0, 0);
 	SDL_QueryTexture(m_win_text, NULL, NULL, 0, 0);
 
-	int pause_text_w = 64, pause_text_h = 32;
-	int end_text_w = 256, end_text_h = 64;
+	constexpr int pause_text_w{ 64 }, pause_text_h{ 32 };
+	constexpr int end_text_w{ 256 }, end_text_h{ 64 };
 
 	m_pause_text_rect = { width/2 - pause_text_w/2, 0, pause_text_w, pause_text_h };
 	m_end_text_rect = { width/2 - end_text_w/2, height/4, end_text_w, end_text_h };
@@ -318,7 +315,7 @@ void Game::renderDeath()
 {
 	if (m_pacman->isDead())
 	{
-		int n_frames = 4;
+		const int n_frames = 4;
 
 		for (int i = 0; i < n_frames; i++)
 		{
