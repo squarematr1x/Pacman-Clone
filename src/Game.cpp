@@ -1,5 +1,4 @@
 #include "Game.h"
-#include <memory>
 
 Game::Game(const char* title, int x_pos, int y_pos, int width, int height)
 {
@@ -35,17 +34,16 @@ void Game::init(const char* title, int x_pos, int y_pos, int width, int height)
 	m_world.loadDetails(m_renderer);
 
 	m_sprite_sheet = loadTexture("Sprites/sprite_sheet.png", m_renderer);
-	m_pacman = new Pacman(new Sprite(m_sprite_sheet, m_renderer));
 
 	int x = 0, y = 0;
 	int w = tile_len, h = tile_len;
-
-	m_pacman = new Pacman(new Sprite(m_sprite_sheet, m_renderer));
 
 	m_ghosts.push_back(new Red(new Sprite(m_sprite_sheet, m_renderer, {x, y, w, h}, { 12*w, 13*w, w, h })));
 	m_ghosts.push_back(new Pink(new Sprite(m_sprite_sheet, m_renderer, { x, w, w, h }, { 10*w, 13*w, w, h })));
 	m_ghosts.push_back(new Blue(new Sprite(m_sprite_sheet, m_renderer, { x, 2*w, w, h }, { 9*w, 13*w, w, h })));
 	m_ghosts.push_back(new Orange(new Sprite(m_sprite_sheet, m_renderer, { x, 3*w, w, h }, { 13*w, 13*w, w, h })));
+
+	m_pacman = new Pacman(new Sprite(m_sprite_sheet, m_renderer));
 
 	TTF_Init();
 	SDL_Color color = { 255, 255, 255 };
@@ -157,12 +155,18 @@ void Game::update()
 
 	m_pacman->updatePos(m_next_dir, m_world);
 
-	for (auto ghost : m_ghosts)
+	for (auto&& ghost : m_ghosts)
 	{
 		if (m_world.eaten(ghost->getColor()))
 			ghost->changeMode(Mode::EATEN);
 
 		ghost->update(m_pacman->getPos(), m_ghosts[RED]->getPos(), m_pacman->getDir(), m_world);
+	}
+
+	if (m_world.playerScored())
+	{
+		m_pacman->addToScore(200);
+		m_world.togglePlayerScoreFlag();
 	}
 
 	if (m_world.playerEaten())
@@ -177,7 +181,7 @@ void Game::update()
 		m_timer.pause();
 		m_flee_timer.reset();
 
-		for (auto ghost : m_ghosts)
+		for (auto&& ghost : m_ghosts)
 		{
 			if (ghost->getMode() != Mode::REST)
 			{
@@ -224,7 +228,7 @@ void Game::updateGhostMode()
 		m_flee_ending = false;
 		m_flee_timer.reset();
 
-		for (auto ghost : m_ghosts)
+		for (auto&& ghost : m_ghosts)
 		{
 			if (ghost->getMode() == Mode::FLEE)
 			{
@@ -240,7 +244,7 @@ void Game::updateGhostMode()
 	{
 		m_flee_ending = true;
 
-		for (auto ghost : m_ghosts)
+		for (auto&& ghost : m_ghosts)
 		{
 			if (ghost->getMode() == Mode::FLEE)
 				ghost->toggleFleeEndingFlag();
@@ -251,7 +255,7 @@ void Game::updateGhostMode()
 	{
 		m_timer.reset();
 
-		for (auto ghost : m_ghosts)
+		for (auto&& ghost : m_ghosts)
 		{
 			if (ghost->getMode() == Mode::CHASE)
 				ghost->changeMode(Mode::SCATTER);
@@ -284,7 +288,7 @@ void Game::render()
 
 	if (!m_pacman->isDead() && !m_world.canRenderScore())
 	{
-		for (auto ghost : m_ghosts)
+		for (auto&& ghost : m_ghosts)
 			ghost->render();
 	}
 

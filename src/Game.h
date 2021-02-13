@@ -10,7 +10,6 @@ class Game
 {
 public:
 	Game(const char* title, int x_pos, int y_pos, int width, int height);
-
 	~Game();
 
 	void init(const char* title, int x_pos, int y_pos, int width, int height);
@@ -32,7 +31,6 @@ public:
 	bool canReleaseRed();
 	bool canReleaseBlue();
 	bool canReleaseOrange();
-
 	void gameInfo();
 
 private:
@@ -55,7 +53,7 @@ private:
 	World m_world;
 	Direction m_next_dir{ Direction::LEFT };
 
-	Pacman* m_pacman{ nullptr };
+	Pacman* m_pacman;
 	std::vector<Ghost*> m_ghosts;
 
 	SDL_Texture* m_sprite_sheet;

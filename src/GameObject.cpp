@@ -216,6 +216,7 @@ void Ghost::updateMapPos(World& world)
 			{
 				setToEaten(world);
 				world.toggleRenderScoreFlag();
+				world.togglePlayerScoreFlag();
 			}
 		}
 	}

@@ -32,7 +32,6 @@ enum color
 class World
 {
 public:
-
     World();
     ~World();
 
@@ -42,6 +41,7 @@ public:
     int getPoints() const { return m_points; }
 
     bool canRenderScore() const { return m_render_score; }
+    bool playerScored() const { return m_scored; }
 
     bool isWall(int y, int x, bool fence_on = true);
     bool isWall(position pos, bool fence_on);
@@ -89,6 +89,7 @@ public:
     void toggleBigPointEatenFlag() { m_big_point_eaten = !m_big_point_eaten; }
 
     void toggleRenderScoreFlag() { m_render_score = !m_render_score; }
+    void togglePlayerScoreFlag() { m_scored = !m_scored; }
 
     void resolveCollision(int y, int x, color ghost_color);
     void updatePlayerPos(int old_y, int old_x, int new_y, int new_x);
@@ -109,8 +110,6 @@ private:
     int m_big_points{ 0 };
     int m_points{ 0 };
 
-    world_position m_score_pos{ 0,0 };
-
     std::vector<char> m_ghost_buffer{ ' ',' ',' ',' ' }; // For storing points that collide with ghosts
 
     bool m_red_vulnerable{ false };
@@ -126,6 +125,7 @@ private:
     bool m_player_eaten{ false };
     bool m_big_point_eaten{ false };
     bool m_render_score{ false };
+    bool m_scored{ false };
 
     // Change this to 1D and std::array?
     char m_map[map_h][map_w] = {
