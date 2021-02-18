@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 
-#include "Constants.h"
+#include "GameConstants.h"
 #include "TextureManager.h"
 
 struct position
