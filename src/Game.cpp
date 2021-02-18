@@ -130,18 +130,6 @@ void Game::handleInput()
 	}
 }
 
-void Game::gameInfo()
-{
-	std::cout << "Red vul: " << m_world.redVulnerable() << '\n';
-	std::cout << "Pnk vul: " << m_world.pinkVulnerable() << '\n';
-	std::cout << "Blu vul: " << m_world.blueVulnerable() << '\n';
-	std::cout << "Org vul: " << m_world.orangeVulnerable() << "\n\n";
-
-	std::cout << "Pac hp: " << m_pacman->getLives() << '\n';
-	std::cout << "Pac score: " << m_pacman->getScore() << '\n';
-	std::cout << "Points left: " << m_world.getPoints() << '\n';
-}
-
 void Game::update()
 {
 	if (m_pacman->getLives() == 0)
@@ -404,4 +392,19 @@ bool Game::canReleaseOrange()
 		return true;
 
 	return false;
+}
+
+void Game::gameInfo()
+{
+	std::cout << "========== GAME INFO ==========\n";
+	std::cout << "* Red vul: " << m_world.redVulnerable() << "\n";
+	std::cout << "* Pnk vul: " << m_world.pinkVulnerable() << "\n";
+	std::cout << "* Blu vul: " << m_world.blueVulnerable() << "\n";
+	std::cout << "* Org vul: " << m_world.orangeVulnerable() << "\n";
+	std::cout << "* Pac hp: " << m_pacman->getLives() << "\n";
+	std::cout << "* Pac score: " << m_pacman->getScore() << "\n";
+	std::cout << "* Points left: " << m_world.getPoints() << "\n";
+	std::cout << "* Timer: " << m_timer.time() << "\n";
+	std::cout << "* Time limit: " << m_time_limit << "\n";
+	std::cout << "===============================\n";
 }
