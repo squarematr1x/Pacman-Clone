@@ -19,6 +19,7 @@ public:
 	void render();
 	void renderScore();
 	void renderDeath();
+	void renderLives();
 	void renderGameOverText();
 	void renderVictoryText();
 	void clean();
@@ -67,6 +68,7 @@ private:
 	SDL_Rect m_pause_text_rect;
 	SDL_Rect m_end_text_rect;
 	SDL_Rect m_win_text_rect;
+	SDL_Rect m_lives_src{lives_x, lives_y, tile_len, tile_len};
 
 	Timer m_timer;
 	Timer m_flee_timer;

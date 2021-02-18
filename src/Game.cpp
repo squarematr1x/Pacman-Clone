@@ -283,6 +283,7 @@ void Game::render()
 	if (pause())
 		SDL_RenderCopy(m_renderer, m_pause_text, NULL, &m_pause_text_rect);
 	
+	renderLives();
 	renderScore();
 	renderDeath();
 
@@ -319,6 +320,12 @@ void Game::renderDeath()
 		m_pacman->reset();
 		m_world.resetPlayer();
 	}
+}
+
+void Game::renderLives()
+{
+	for (int i = 0; i < m_pacman->getLives() - 1; i++)
+		draw(m_sprite_sheet, m_renderer, m_lives_src, {lives_dest_x + i * tile_len, lives_dest_y, tile_len, tile_len});
 }
 
 void Game::renderGameOverText()
