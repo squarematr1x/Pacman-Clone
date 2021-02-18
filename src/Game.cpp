@@ -219,11 +219,12 @@ void Game::update()
 
 void Game::updateGhostMode()
 {
-	if (m_flee_timer.time() >= m_time_limit)
+	if (m_flee_timer.time() >= m_flee_limit)
 	{
 		m_flee = false;
 		m_flee_ending = false;
 		m_flee_timer.reset();
+		setTimeLimit(5000);
 
 		for (auto&& ghost : m_ghosts)
 		{
@@ -236,6 +237,7 @@ void Game::updateGhostMode()
 		}
 
 		m_timer.resume();
+		m_timer.reset();
 	}
 	else if (!m_flee_ending && m_flee_timer.time() >= 5000)
 	{
@@ -251,6 +253,7 @@ void Game::updateGhostMode()
 	if (m_timer.time() >= m_time_limit)
 	{
 		m_timer.reset();
+		changeTimeLimit();
 
 		for (auto&& ghost : m_ghosts)
 		{
@@ -346,6 +349,17 @@ void Game::renderVictoryText()
 	SDL_RenderCopy(m_renderer, m_win_text, NULL, &m_win_text_rect);
 	SDL_RenderPresent(m_renderer);
 	SDL_Delay(1000);
+}
+
+void Game::changeTimeLimit()
+{
+	constexpr unsigned int chase_time = 20000;
+	constexpr unsigned int scatter_time = 7000;
+
+	if (m_time_limit == chase_time)
+		m_time_limit = scatter_time;
+	else
+		m_time_limit = chase_time;
 }
 
 void Game::clean()

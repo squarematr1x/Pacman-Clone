@@ -24,6 +24,8 @@ public:
 	void clean();
 
 	void togglePause() { m_pause = !m_pause; }
+	void setTimeLimit(unsigned int new_limit) { m_time_limit = new_limit; }
+	void changeTimeLimit();
 
 	bool running() const { return m_running; }
 	bool pause() const { return m_pause; }
@@ -46,6 +48,7 @@ private:
 
 	int m_score{ 0 };
 	unsigned int m_time_limit{ 7000 };
+	const unsigned int m_flee_limit{ 7000 };
 
 	SDL_Window* m_window;
 	SDL_Renderer* m_renderer;
