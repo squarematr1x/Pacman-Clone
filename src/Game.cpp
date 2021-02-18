@@ -306,7 +306,7 @@ void Game::renderDeath()
 {
 	if (m_pacman->isDead())
 	{
-		const int n_frames = 4;
+		constexpr int n_frames{ 4 };
 
 		for (int i = 0; i < n_frames; i++)
 		{
@@ -341,8 +341,8 @@ void Game::renderVictoryText()
 
 void Game::changeTimeLimit()
 {
-	constexpr unsigned int chase_time = 20000;
-	constexpr unsigned int scatter_time = 7000;
+	constexpr unsigned int chase_time{ 20000 };
+	constexpr unsigned int scatter_time{ 7000 };
 
 	if (m_time_limit == chase_time)
 		m_time_limit = scatter_time;
