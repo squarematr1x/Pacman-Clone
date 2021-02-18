@@ -49,12 +49,12 @@ void World::render(SDL_Renderer* renderer)
 			m_dest.x = j * tile_len;
 			m_dest.y = i * tile_len;
 
-			if (tile == '*')
-				draw(m_sprite_sheet, renderer, m_point_src, m_dest);
-			else if (tile == '@')
-				draw(m_sprite_sheet, renderer, m_big_point_src, m_dest);
-			else if (tile == '$')
-				draw(m_sprite_sheet, renderer, m_berry_src, m_dest);
+			switch (tile)
+			{
+				case '*': draw(m_sprite_sheet, renderer, m_point_src, m_dest);     break;
+				case '@': draw(m_sprite_sheet, renderer, m_big_point_src, m_dest); break;
+				case '$': draw(m_sprite_sheet, renderer, m_berry_src, m_dest);     break;
+			}
 		}
 	}
 }
