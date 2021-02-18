@@ -35,7 +35,7 @@ public:
     World();
     ~World();
 
-    void loadDetails(SDL_Renderer* renderer);
+    void loadDetails(SDL_Renderer* renderer, SDL_Texture* sprite_sheet);
     void render(SDL_Renderer* renderer);
 
     int getPoints() const { return m_points; }
@@ -98,14 +98,16 @@ public:
     void printMap();
 
 private:
-    SDL_Rect m_src{ 0, 0, tile_len, tile_len };
     SDL_Rect m_dest{ 0, 0, tile_len, tile_len };
+
+    SDL_Rect m_big_point_src{ big_point_x, big_point_y, tile_len, tile_len };
+    SDL_Rect m_point_src{ point_x, point_y, tile_len, tile_len };
+    SDL_Rect m_berry_src{ berry_x, berry_y, tile_len, tile_len };
+
     SDL_Rect area_rect{ 0, 0, tile_len * map_w, tile_len * map_h };
 
+    SDL_Texture* m_sprite_sheet{ nullptr };
     SDL_Texture* m_area_tex{ nullptr };
-    SDL_Texture* m_point_tex{ nullptr };
-    SDL_Texture* m_big_point_tex{ nullptr };
-    SDL_Texture* m_berry_tex{ nullptr };
 
     int m_big_points{ 0 };
     int m_points{ 0 };

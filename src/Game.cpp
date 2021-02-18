@@ -31,8 +31,6 @@ void Game::init(const char* title, int x_pos, int y_pos, int width, int height)
 	else
 		m_running = false;
 
-	m_world.loadDetails(m_renderer);
-
 	m_sprite_sheet = loadTexture("Sprites/sprite_sheet.png", m_renderer);
 
 	m_ghosts.push_back(new Red(new Sprite(m_sprite_sheet, m_renderer, {0, 0, tile_len, tile_len}, { 12*tile_len, 13*tile_len, tile_len, tile_len })));
@@ -41,6 +39,8 @@ void Game::init(const char* title, int x_pos, int y_pos, int width, int height)
 	m_ghosts.push_back(new Orange(new Sprite(m_sprite_sheet, m_renderer, { 0, 3*tile_len, tile_len, tile_len }, { 13*tile_len, 13*tile_len, tile_len, tile_len })));
 
 	m_pacman = new Pacman(new Sprite(m_sprite_sheet, m_renderer));
+
+	m_world.loadDetails(m_renderer, m_sprite_sheet);
 
 	TTF_Init();
 	SDL_Color color = { 255, 255, 255 };

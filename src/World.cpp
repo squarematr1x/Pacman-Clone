@@ -28,17 +28,12 @@ World::World()
 World::~World()
 {
 	SDL_DestroyTexture(m_area_tex);
-	SDL_DestroyTexture(m_point_tex);
-	SDL_DestroyTexture(m_big_point_tex);
-	SDL_DestroyTexture(m_berry_tex);
 }
 
-void World::loadDetails(SDL_Renderer* renderer)
+void World::loadDetails(SDL_Renderer* renderer, SDL_Texture* sprite_sheet)
 {
 	m_area_tex = loadTexture("Sprites/area.png", renderer);
-	m_point_tex = loadTexture("Sprites/point.png", renderer);
-	m_big_point_tex = loadTexture("Sprites/big_point.png", renderer);
-	m_berry_tex = loadTexture("Sprites/berry.png", renderer);
+	m_sprite_sheet = sprite_sheet;
 }
 
 void World::render(SDL_Renderer* renderer)
@@ -55,11 +50,11 @@ void World::render(SDL_Renderer* renderer)
 			m_dest.y = i * tile_len;
 
 			if (tile == '*')
-				draw(m_point_tex, renderer, m_src, m_dest);
+				draw(m_sprite_sheet, renderer, m_point_src, m_dest);
 			else if (tile == '@')
-				draw(m_big_point_tex, renderer, m_src, m_dest);
+				draw(m_sprite_sheet, renderer, m_big_point_src, m_dest);
 			else if (tile == '$')
-				draw(m_berry_tex, renderer, m_src, m_dest);
+				draw(m_sprite_sheet, renderer, m_berry_src, m_dest);
 		}
 	}
 }
