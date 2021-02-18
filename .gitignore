@@ -2,8 +2,7 @@ Debug/
 packages/
 
 **.vcxproj
-**.vcxproj.filters
-**.vcxproj.user
+**.vcxproj.*
 
 **.config
 
