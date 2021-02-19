@@ -14,5 +14,6 @@ constexpr int berry_x{ 192 };
 constexpr int berry_y{ 128 };
 constexpr int lives_x{ 32 };
 constexpr int lives_y{ 192 };
+constexpr int digits_y{ 288 };
 constexpr int lives_dest_x{ 0 };
 constexpr int lives_dest_y{ 864 };
