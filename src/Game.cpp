@@ -284,6 +284,7 @@ void Game::render()
 		SDL_RenderCopy(m_renderer, m_pause_text, NULL, &m_pause_text_rect);
 	
 	renderLives();
+	renderTotalScore();
 	renderScore();
 	renderDeath();
 
@@ -300,6 +301,19 @@ void Game::renderScore()
 		SDL_Delay(400);
 
 		m_world.toggleRenderScoreFlag();
+	}
+}
+
+void Game::renderTotalScore()
+{
+	std::string score_str = std::to_string(m_pacman->getScore());
+	int n = static_cast<int>(score_str.size());
+
+	for (int i = 0; i < n; i++)
+	{
+		int digit = score_str[i] - '0';
+		draw(m_sprite_sheet, m_renderer, { digit * tile_len, digits_y, tile_len, tile_len }, 
+			 { i * tile_len, 0, tile_len, tile_len });
 	}
 }
 
