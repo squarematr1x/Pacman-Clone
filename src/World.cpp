@@ -44,7 +44,7 @@ void World::render(SDL_Renderer* renderer)
 	{
 		for (int j = 0; j < map_w; j++)
 		{
-			char tile = m_map[i][j];
+			char tile = m_map[map_w*i + j];
 
 			m_dest.x = j * tile_len;
 			m_dest.y = i * tile_len;
@@ -100,11 +100,11 @@ void World::resolveCollision(int y, int x, color ghost_color)
 
 void World::updatePlayerPos(int old_y, int old_x, int new_y, int new_x)
 {
-	if (m_map[new_y][new_x] == '*')
+	if (m_map[map_w*new_y + new_x]== '*')
 		m_points--;
 
-	m_map[old_y][old_x] = ' ';
-	m_map[new_y][new_x] = 'C';
+	m_map[map_w*old_y + old_x] = ' ';
+	m_map[map_w*new_y + new_x] = 'C';
 }
 
 void World::toggleVulnerableFlag(color ghost_color)
@@ -185,10 +185,10 @@ bool World::eaten(color ghost_color)
 
 bool World::isWall(int y, int x, bool fence_on)
 {
-	if (m_map[y][x] == '#')
+	if (m_map[map_w*y + x]== '#')
 		return true;
 
-	if (fence_on && m_map[y][x] == '-')
+	if (fence_on && m_map[map_w*y + x] == '-')
 		return true;
 
 	return false;
@@ -208,9 +208,9 @@ void World::calculatePoints()
 	{
 		for (int j = 0; j < map_w; j++)
 		{
-			if (m_map[i][j] == '*')
+			if (m_map[map_w*i + j] == '*')
 				m_points++;
-			else if (m_map[i][j] == '@')
+			else if (m_map[map_w*i + j] == '@')
 				m_big_points++;
 		}
 	}
@@ -221,7 +221,7 @@ void World::printMap()
 	for (int i = 0; i < map_h; i++)
 	{
 		for (int j = 0; j < map_w; j++)
-			std::cout << m_map[i][j];
+			std::cout << m_map[map_w*i + j];
 
 		std::cout << '\n';
 	}
