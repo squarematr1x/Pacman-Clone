@@ -226,10 +226,7 @@ void Ghost::updateMapPos(World& world)
 
 bool Ghost::canEatPlayer()
 {
-	if (m_mode == Mode::SCATTER || m_mode == Mode::CHASE)
-		return true;
-
-	return false;
+	return (m_mode == Mode::SCATTER || m_mode == Mode::CHASE);
 }
 
 position Red::getChasePos(position pacman_pos, position red_pos, Direction pacman_dir)

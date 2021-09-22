@@ -203,16 +203,10 @@ void Pacman::reset()
 
 bool Pacman::movingVertically()
 {
-	if (m_dir == Direction::UP || m_dir == Direction::DOWN)
-		return true;
-
-	return false;
+	return (m_dir == Direction::UP || m_dir == Direction::DOWN);
 }
 
 bool Pacman::movingHorizontally()
 {
-	if (m_dir == Direction::LEFT || m_dir == Direction::RIGHT)
-		return true;
-
-	return false;
+	return (m_dir == Direction::LEFT || m_dir == Direction::RIGHT);
 }
