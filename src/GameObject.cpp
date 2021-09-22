@@ -1,5 +1,13 @@
 #include "GameObject.h"
 
+// This should/could be friend
+int GameObject::lerp(float current_pos, float next_pos)
+{
+	float k = 0.5f;
+
+	return static_cast<int>((current_pos + k * (next_pos - current_pos)) * tile_len);
+}
+
 void GameObject::render()
 {
 	m_sprite->draw();
@@ -19,6 +27,17 @@ bool GameObject::atRightmostPos()
 {
 	return (m_pos.x >= 22 && m_pos.y > 12 && m_pos.y < 14);
 }
+
+bool GameObject::movingVertically()
+{
+	return (m_dir == Direction::UP || m_dir == Direction::DOWN);
+}
+
+bool GameObject::movingHorizontally()
+{
+	return (m_dir == Direction::LEFT || m_dir == Direction::RIGHT);
+}
+
 
 void Ghost::changeMode(Mode mode)
 { 
@@ -121,7 +140,7 @@ void Ghost::update(position pacman_pos, position red_pos, Direction pacman_dir, 
 		return;
 
 	position dest = { 11.0f, 11.0f };
-
+	Direction last_dir = m_dir;
 	int x = static_cast<int>(std::round(m_pos.x));
 	int y = static_cast<int>(std::round(m_pos.y));
 
@@ -155,7 +174,23 @@ void Ghost::update(position pacman_pos, position red_pos, Direction pacman_dir, 
 
 	updatePos(x, y, m_dir, world);
 
-	SDL_Rect sprite_dest = { tile_len * x, tile_len * y, tile_len, tile_len };
+	int dest_x = x * tile_len;
+	int dest_y = y * tile_len;
+
+	if (m_dir == last_dir)
+	{
+		if (movingVertically())
+			dest_y = lerp(m_pos.y, m_pos.y + m_speed);
+		else if (movingHorizontally())
+			dest_x = lerp(m_pos.x, m_pos.x + m_speed);
+	}
+	else
+	{
+		m_pos.y = std::round(m_pos.y);
+		m_pos.x = std::round(m_pos.x);
+	}
+
+	SDL_Rect sprite_dest = { dest_x, dest_y, tile_len, tile_len };
 	m_sprite->update(sprite_dest, m_dir, m_mode, m_flee_ending);
 }
 

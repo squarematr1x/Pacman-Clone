@@ -27,16 +27,11 @@ public:
 	int getScore() const { return m_score; }
 	int getLives() const { return m_lives; }
 	bool isDead() const { return m_dead; }
-	bool movingVertically();
-	bool movingHorizontally();
-
-	friend int lerp(float current_pos, float next_pos);
 
 private:
 	int m_score{ 0 };
 	int m_lives{ 3 };
 
-	bool m_dead{ false };
 	bool m_against_wall{ false };
-	bool m_changed_dir{ false };
+	bool m_dead{ false };
 };

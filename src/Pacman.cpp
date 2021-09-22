@@ -1,12 +1,5 @@
 #include "Pacman.h"
 
-int lerp(float current_pos, float next_pos)
-{
-	float k = 0.5f;
-
-	return static_cast<int>((current_pos + k * (next_pos - current_pos)) * tile_len);
-}
-
 void Pacman::updatePos(Direction dir, World& world)
 {
 	Direction prev_dir = m_dir;
@@ -199,14 +192,4 @@ void Pacman::reset()
 	setPos({ 11.0f, 20.0f });
 
 	m_dead = false;
-}
-
-bool Pacman::movingVertically()
-{
-	return (m_dir == Direction::UP || m_dir == Direction::DOWN);
-}
-
-bool Pacman::movingHorizontally()
-{
-	return (m_dir == Direction::LEFT || m_dir == Direction::RIGHT);
 }

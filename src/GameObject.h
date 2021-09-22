@@ -18,6 +18,8 @@ public:
 		delete m_sprite;
 	}
 
+	int lerp(float current_pos, float next_pos);
+
 	float getDistance(position src, position dest);
 	float getSpeed() const { return m_speed; }
 
@@ -29,6 +31,8 @@ public:
 
 	bool atLeftmostPos();
 	bool atRightmostPos();
+	bool movingVertically();
+	bool movingHorizontally();
 
 	virtual void updatePos(Direction dir, World& world) {};
 
@@ -45,6 +49,7 @@ protected:
 	position m_pos;
 	Mode m_mode;
 	Direction m_dir{ Direction::LEFT };
+	bool m_changed_dir{ false };
 };
 
 class Ghost : public GameObject
