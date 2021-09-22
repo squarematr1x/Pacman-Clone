@@ -6,5 +6,4 @@ Implementing Pacman by using [SDL2](https://wiki.libsdl.org/FrontPage).
 
 ## Should add these features:
 
-* Make ghost movement smoother
 * Implement sound
