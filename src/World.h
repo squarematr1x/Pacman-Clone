@@ -1,7 +1,7 @@
 #pragma once
 
 #include <iostream>
-#include <vector>
+#include <array>
 
 #include "GameConstants.h"
 #include "TextureManager.h"
@@ -112,7 +112,7 @@ private:
     int m_big_points{ 0 };
     int m_points{ 0 };
 
-    std::vector<char> m_ghost_buffer{ ' ',' ',' ',' ' }; // For storing points that collide with ghosts
+    std::array<char, 4> m_ghost_buffer = { ' ',' ',' ',' ' }; // For storing points that collide with ghosts
 
     bool m_red_vulnerable{ false };
     bool m_pink_vulnerable{ false };
