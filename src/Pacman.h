@@ -14,7 +14,7 @@ public:
 	void removeLife() { m_lives--; }
 
 	void updatePos(Direction dir, World& world);
-	void updateDir(Direction dir, position& next_pos, World& world);
+	void updateDir(Direction dir, World& world);
 	void move(position& next_pos);
 	void confirmPos(position next_pos, World& world);
 	void checkCollision(World& world, int y, int x);
@@ -27,6 +27,8 @@ public:
 	int getScore() const { return m_score; }
 	int getLives() const { return m_lives; }
 	bool isDead() const { return m_dead; }
+
+	bool isWallAhead(Direction dir, World& world);
 
 private:
 	int m_score{ 0 };

@@ -5,7 +5,7 @@ void Pacman::updatePos(Direction dir, World& world)
 	Direction prev_dir = m_dir;
 	position next_pos = m_pos;
 
-	updateDir(dir, next_pos, world);
+	updateDir(dir, world);
 
 	if (m_dir != prev_dir)
 		m_changed_dir = true;
@@ -16,46 +16,46 @@ void Pacman::updatePos(Direction dir, World& world)
 	confirmPos(next_pos, world);
 }
 
-void Pacman::updateDir(Direction dir, position& next_pos, World& world)
+bool Pacman::isWallAhead(Direction dir, World& world)
 {
+	int y = static_cast<int>(std::round(m_pos.y));
+	int x = static_cast<int>(std::round(m_pos.x));
 	bool wall_ahead = false;
 
 	switch (dir)
 	{
 	case Direction::UP:
-		if (!world.isWall(static_cast<int>(std::round(m_pos.y)) - 1, static_cast<int>(std::round(m_pos.x))))
-			m_dir = dir;
-		else
+		if (world.isWall(y - 1, x))
 			wall_ahead = true;
 		break;
 	case Direction::DOWN:
-		if (!world.isWall(static_cast<int>(std::round(m_pos.y)) + 1, static_cast<int>(std::round(m_pos.x))))
-			m_dir = dir;
-		else
+		if (world.isWall(y + 1, x))
 			wall_ahead = true;
 		break;
 	case Direction::LEFT:
-		if (!world.isWall(static_cast<int>(std::round(m_pos.y)), static_cast<int>(std::round(m_pos.x)) - 1))
-			m_dir = dir;
-		else
+		if (world.isWall(y, x - 1))
 			wall_ahead = true;
 		break;
 	case Direction::RIGHT:
-		if (!world.isWall(static_cast<int>(std::round(m_pos.y)), static_cast<int>(std::round(m_pos.x)) + 1))
-			m_dir = dir;
-		else
+		if (world.isWall(y, x + 1))
 			wall_ahead = true;
 		break;
 	default:
 		break;
 	}
 
-	if (wall_ahead && m_dir == dir)
-		m_against_wall = true;
-	else if (m_against_wall && m_dir != dir)
-		m_against_wall = true;
-	else
-		m_against_wall = false;
+	return wall_ahead;
+}
+
+void Pacman::updateDir(Direction dir, World& world)
+{
+	bool input_dir_wall_ahead = isWallAhead(dir, world);
+	bool current_dir_wall_ahead = isWallAhead(m_dir, world);
+
+	if (!input_dir_wall_ahead)
+		m_dir = dir;
+
+	m_against_wall = input_dir_wall_ahead && current_dir_wall_ahead;
 }
 
 void Pacman::move(position& next_pos)
