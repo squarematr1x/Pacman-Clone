@@ -56,7 +56,7 @@ class Ghost : public GameObject
 {
 public:
 	Ghost(Sprite* sprite, Mode mode, position scatter_dest, color col)
-		: GameObject(sprite, 0.125f, { 12.0f, 13.0f }, mode),
+		: GameObject(sprite, 0.065f, { 12.0f, 13.0f }, mode),
 		  m_scatter_dest(scatter_dest), m_color(col)
 	{
 	}

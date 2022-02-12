@@ -47,7 +47,7 @@ void Ghost::changeMode(Mode mode)
 			m_flee_ending = false;
 			break;
 		case Mode::EATEN:
-			setSpeed(0.275f);
+			setSpeed(0.15f);
 			break;
 		case Mode::SCATTER:
 		case Mode::CHASE:
@@ -65,7 +65,7 @@ void Ghost::start(int x, int y, World& world)
 		if (m_mode == Mode::EATEN)
 		{
 			reset(world);
-			setSpeed(0.125f);
+			setSpeed(0.065f);
 
 			if (m_flee_ending)
 				toggleFleeEndingFlag();

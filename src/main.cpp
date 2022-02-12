@@ -2,7 +2,7 @@
 
 int main(int argc, char** argv)
 {
-    const int fps = 30;
+    const int fps = 60;
     const int frame_delay = 1000 / fps;
     const int screen_width = tile_len * map_w;
     const int screen_height = tile_len * map_h;
