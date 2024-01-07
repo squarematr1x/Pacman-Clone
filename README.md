@@ -16,3 +16,7 @@ Implementing Pacman by using [SDL2](https://wiki.libsdl.org/FrontPage).
 
 * https://en.wikipedia.org/wiki/Texture_atlas
 * https://developer.mozilla.org/en-US/docs/Games/Techniques/Tilemaps
+
+### Build
+
+* I just used Visual Studio for this project
